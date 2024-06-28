@@ -1,41 +1,46 @@
 <?php
-// データベース接続情報
-$servername = "localhost";
-$username = "testuser";
-$password = "pass"; // データベースパスワード
-$dbname = "mydb";
+session_start();
 
-// データベース接続の確立
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// 接続を確認
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+function h($var) {
+    if (is_array($var)) {
+        return array_map('h', $var);
+    } else {
+        return htmlspecialchars($var, ENT_QUOTES, 'UTF-8');
+    }
 }
 
-// 文字セットをUTF-8に設定
-$conn->set_charset("utf8mb4");
+$dbServer = isset($_ENV['MYSQL_SERVER']) ? $_ENV['MYSQL_SERVER'] : '127.0.0.1';
+$dbUser = isset($_SERVER['MYSQL_USER']) ? $_SERVER['MYSQL_USER'] : 'testuser';
+$dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
+$dbName = isset($_SERVER['MYSQL_DB']) ? $_SERVER['MYSQL_DB'] : 'mydb';
 
-// 削除する本のIDを取得
-$book_id = $_GET['id'] ?? '';
+$dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 
-if ($book_id) {
-    // 本をデータベースから削除
-    $stmt = $conn->prepare("DELETE FROM books WHERE id = ?");
-    if ($stmt === false) {
-        die("Prepare failed: " . $conn->error);
-    }
-    $stmt->bind_param("i", $book_id);
-    if ($stmt->execute() === false) {
-        die("Execute failed: " . $stmt->error);
-    }
-
-    $stmt->close();
+try {
+    $db = new PDO($dsn, $dbUser, $dbPass);
+    $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Can't connect to the database: " . h($e->getMessage());
+    exit();
 }
 
-$conn->close();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
 
-// ホームページにリダイレクト
-header("Location: home.php");
-exit();
-?>
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    try {
+        $stmt = $db->prepare("DELETE FROM books WHERE id = :id");
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        header("Location: home.php");
+        exit();
+    } catch (PDOException $e) {
+        echo "Error: " . h($e->getMessage());
+    }
+} else {
+    echo "Invalid book ID.";
+}

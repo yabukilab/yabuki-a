@@ -1,48 +1,57 @@
 <?php
-// データベース接続情報
-$servername = "localhost";
-$username = "testuser";
-$password = "pass"; // データベースパスワード
-$dbname = "mydb";
+session_start();
 
-// データベース接続の確立
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// 接続を確認
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+function h($var) {
+    if (is_array($var)) {
+        return array_map('h', $var);
+    } else {
+        return htmlspecialchars($var, ENT_QUOTES, 'UTF-8');
+    }
 }
 
-// 文字セットをUTF-8に設定
-$conn->set_charset("utf8mb4");
+$dbServer = isset($_ENV['MYSQL_SERVER']) ? $_ENV['MYSQL_SERVER'] : '127.0.0.1';
+$dbUser = isset($_SERVER['MYSQL_USER']) ? $_SERVER['MYSQL_USER'] : 'testuser';
+$dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
+$dbName = isset($_SERVER['MYSQL_DB']) ? $_SERVER['MYSQL_DB'] : 'mydb';
 
-// 検索クエリと並び替えの基準を取得
+$dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
+
+try {
+    $db = new PDO($dsn, $dbUser, $dbPass);
+    $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Can't connect to the database: " . h($e->getMessage());
+    exit();
+}
+
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
 $search = $_GET['search'] ?? '';
-$sort_by = $_GET['sort_by'] ?? 'title';
+$sort = $_GET['sort'] ?? '';
 
-// SQLクエリを構築
-$sql = "SELECT id, title, author, publisher FROM books WHERE title LIKE ? OR author LIKE ? OR publisher LIKE ? ORDER BY ";
+$query = "SELECT * FROM books WHERE title LIKE :search OR author LIKE :search OR publisher LIKE :search";
 
-// 並び替えの基準に基づいてSQLクエリを設定
-switch ($sort_by) {
-    case 'author':
-        $sql .= "author";
-        break;
-    case 'publisher':
-        $sql .= "publisher";
-        break;
-    case 'title':
-    default:
-        $sql .= "title";
-        break;
+if ($sort === 'title') {
+    $query .= " ORDER BY title ASC";
+} elseif ($sort === 'author') {
+    $query .= " ORDER BY author ASC";
+} elseif ($sort === 'publisher') {
+    $query .= " ORDER BY publisher ASC";
 }
 
-// 準備されたステートメントを使用してクエリを実行
-$stmt = $conn->prepare($sql);
-$like_search = '%' . $search . '%';
-$stmt->bind_param("sss", $like_search, $like_search, $like_search);
-$stmt->execute();
-$result = $stmt->get_result();
+try {
+    $stmt = $db->prepare($query);
+    $stmt->bindValue(':search', "%$search%");
+    $stmt->execute();
+    $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error: " . h($e->getMessage());
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -53,33 +62,29 @@ $result = $stmt->get_result();
     <title>Home</title>
 </head>
 <body>
-    <h2>Home Page</h2>
-    
+    <h2>Welcome, <?php echo h($_SESSION['username']); ?>!</h2>
     <form method="GET" action="home.php">
-        <input type="text" name="search" placeholder="Search by title, author, or publisher" value="<?php echo htmlspecialchars($search); ?>">
-        <select name="sort_by">
-            <option value="title" <?php echo $sort_by === 'title' ? 'selected' : ''; ?>>Title</option>
-            <option value="author" <?php echo $sort_by === 'author' ? 'selected' : ''; ?>>Author</option>
-            <option value="publisher" <?php echo $sort_by === 'publisher' ? 'selected' : ''; ?>>Publisher</option>
+        <label for="search">Search:</label>
+        <input type="text" id="search" name="search" value="<?php echo h($search); ?>">
+        <label for="sort">Sort by:</label>
+        <select id="sort" name="sort">
+            <option value="">Select</option>
+            <option value="title" <?php if ($sort === 'title') echo 'selected'; ?>>Title</option>
+            <option value="author" <?php if ($sort === 'author') echo 'selected'; ?>>Author</option>
+            <option value="publisher" <?php if ($sort === 'publisher') echo 'selected'; ?>>Publisher</option>
         </select>
-        <input type="submit" value="Search and Sort">
+        <input type="submit" value="Search">
     </form>
-    
-    <h3>Book List</h3>
+    <h2>Book List</h2>
     <ul>
-        <?php
-        if ($result->num_rows > 0) {
-            // 出力データを各行ごとに表示
-            while($row = $result->fetch_assoc()) {
-                echo "<li>" . htmlspecialchars($row["title"]) . " by " . htmlspecialchars($row["author"]) . ", published by " . htmlspecialchars($row["publisher"]);
-                echo " <a href='delete_book.php?id=" . $row["id"] . "'>Delete</a></li>";
-            }
-        } else {
-            echo "No books found.";
-        }
-        $conn->close();
-        ?>
+        <?php foreach ($books as $book): ?>
+            <li>
+                <?php echo h($book['title']); ?> by <?php echo h($book['author']); ?>, published by <?php echo h($book['publisher']); ?>
+                <a href="delete_book.php?id=<?php echo h($book['id']); ?>">Delete</a>
+            </li>
+        <?php endforeach; ?>
     </ul>
-    <p><a href="add_book.html">Add a new book</a></p>
+    <p><a href="add_book.php">Add a new book</a></p>
+    <p><a href="logout.php">Logout</a></p>
 </body>
 </html>

@@ -1,53 +1,79 @@
 <?php
-// データベース接続情報
-$servername = "localhost";
-$username = "testuser";
-$password = "pass";
-$dbname = "mydb";
+session_start();
 
-// フォームからの入力を取得
-$user = $_POST['username'];
-$pass = $_POST['password'];
-
-// デバッグ情報を追加
-echo "Received username: $user<br>";
-echo "Received password: $pass<br>";
-
-// データベース接続の確立
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// 接続を確認
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+function h($var) {
+    if (is_array($var)) {
+        return array_map('h', $var);
+    } else {
+        return htmlspecialchars($var, ENT_QUOTES, 'UTF-8');
+    }
 }
 
-// ユーザーの検証
-$stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
-if ($stmt === false) {
-    die("Prepare failed: " . $conn->error);
-}
-$stmt->bind_param("s", $user);
-if ($stmt->execute() === false) {
-    die("Execute failed: " . $stmt->error);
-}
-$stmt->store_result();
-if ($stmt->num_rows > 0) {
-$stmt->bind_result($hashed_password);
-$stmt->fetch();
-}
-if (password_verify($pass, $hashed_password)) {
-    // ログイン成功
-    echo "Login successful! Welcome to the home page.";
-    // ここでホームページにリダイレクトすることもできます
-    header('Location: home.html');
-} else {
-    // ログイン失敗
-    echo "IDまたはパスワードが間違えています。";
-    // ユーザーが存在しない
-    echo "IDまたはパスワードが間違えています。";
+$dbServer = isset($_ENV['MYSQL_SERVER']) ? $_ENV['MYSQL_SERVER'] : '127.0.0.1';
+$dbUser = isset($_SERVER['MYSQL_USER']) ? $_SERVER['MYSQL_USER'] : 'testuser';
+$dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
+$dbName = isset($_SERVER['MYSQL_DB']) ? $_SERVER['MYSQL_DB'] : 'mydb';
+
+$dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
+
+try {
+    $db = new PDO($dsn, $dbUser, $dbPass);
+    $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Can't connect to the database: " . h($e->getMessage());
+    exit();
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-$stmt->close();
-$conn->close();
+    if (!empty($username) && !empty($password)) {
+        try {
+            $stmt = $db->prepare("SELECT password FROM users WHERE username = :username");
+            $stmt->bindParam(':username', $username);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                if (password_verify($password, $row['password'])) {
+                    $_SESSION['username'] = $username;
+                    header("Location: home.php");
+                    exit();
+                } else {
+                    echo "Incorrect password.";
+                }
+            } else {
+                echo "Username not found.";
+            }
+        } catch (PDOException $e) {
+            echo "Error: " . h($e->getMessage());
+        }
+    } else {
+        echo "Username and password cannot be empty.";
+    }
+}
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form method="POST" action="login.php">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="submit" value="Login">
+    </form>
+    <p><a href="add_user.php">Add a new user</a></p>
+</body>
+</html>

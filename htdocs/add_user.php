@@ -16,9 +16,7 @@ $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 
 try {
     $db = new PDO($dsn, $dbUser, $dbPass);
-    // プリペアドステートメントのエミュレーションを無効にする
     $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    // エラーを例外として扱う
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo "Can't connect to the database: " . h($e->getMessage());
@@ -30,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
 
     if (!empty($username) && !empty($password)) {
-        // パスワードのハッシュ化
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         try {

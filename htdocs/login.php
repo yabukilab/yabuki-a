@@ -31,11 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($username) && !empty($password)) {
         try {
+            // ユーザー名の存在確認
             $stmt = $db->prepare("SELECT password FROM users WHERE username = :username");
             $stmt->execute([':username' => $username]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($row) {
+                // パスワードの一致確認
                 if (password_verify($password, $row['password'])) {
                     $_SESSION['username'] = $username;
                     header("Location: home.php");

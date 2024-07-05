@@ -31,6 +31,8 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
+$books = []; // 初期化
+
 // ここにユーザーが登録した本を表示するコードを記述します
 try {
     $stmt = $db->prepare("SELECT title, author, publisher FROM books WHERE user_id = :user_id ORDER BY title ASC");
@@ -59,7 +61,5 @@ try {
     </ul>
 
     <a href="add_book.html">Add a Book</a>
-    <br>
-    <a href="logout.php">Logout</a>
 </body>
 </html>

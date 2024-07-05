@@ -28,16 +28,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
 
     if (!empty($username) && !empty($password)) {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
         try {
-            $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
-            $stmt->bindParam(':username', $username);
-            $stmt->bindParam(':password', $hashed_password);
+            // ユーザー名の重複チェック
+            $stmt = $db->prepare("SELECT COUNT(*) FROM users WHERE username = :username");
+            $stmt->bindParam(':username', $username, PDO::PARAM_STR);
             $stmt->execute();
+            $count = $stmt->fetchColumn();
 
-            echo "User successfully added.";
-            echo "<p><a href='login.html'>Go to login page</a></p>";
+            if ($count > 0) {
+                echo "Username already exists. Please choose a different username.";
+            } else {
+                // 新しいユーザーを追加
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
+                $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+                $stmt->bindParam(':password', $hashed_password, PDO::PARAM_STR);
+                $stmt->execute();
+                echo "User registered successfully.";
+                echo "<p><a href='login.html'>Go to Login</a></p>";
+            }
         } catch (PDOException $e) {
             echo "Error: " . h($e->getMessage());
         }
@@ -65,5 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <br>
         <input type="submit" value="Add User">
     </form>
+    <p><a href="login.html">Go to Login</a></p>
 </body>
 </html>

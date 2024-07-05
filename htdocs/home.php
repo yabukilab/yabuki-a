@@ -25,32 +25,19 @@ try {
     exit();
 }
 
+// ログインチェック
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
 
-$search = $_GET['search'] ?? '';
-$sort = $_GET['sort'] ?? '';
-
-$query = "SELECT * FROM books WHERE title LIKE :search OR author LIKE :search OR publisher LIKE :search";
-
-if ($sort === 'title') {
-    $query .= " ORDER BY title ASC";
-} elseif ($sort === 'author') {
-    $query .= " ORDER BY author ASC";
-} elseif ($sort === 'publisher') {
-    $query .= " ORDER BY publisher ASC";
-}
-
+// ここにユーザーが登録した本を表示するコードを記述します
 try {
-    $stmt = $db->prepare($query);
-    $stmt->bindValue(':search', "%$search%");
-    $stmt->execute();
+    $stmt = $db->prepare("SELECT title, author, publisher FROM books WHERE user_id = :user_id ORDER BY title ASC");
+    $stmt->execute([':user_id' => $_SESSION['user_id']]);
     $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo "Error: " . h($e->getMessage());
-    exit();
 }
 ?>
 
@@ -62,29 +49,17 @@ try {
     <title>Home</title>
 </head>
 <body>
-    <h2>Welcome, <?php echo h($_SESSION['username']); ?>!</h2>
-    <form method="GET" action="home.php">
-        <label for="search">Search:</label>
-        <input type="text" id="search" name="search" value="<?php echo h($search); ?>">
-        <label for="sort">Sort by:</label>
-        <select id="sort" name="sort">
-            <option value="">Select</option>
-            <option value="title" <?php if ($sort === 'title') echo 'selected'; ?>>Title</option>
-            <option value="author" <?php if ($sort === 'author') echo 'selected'; ?>>Author</option>
-            <option value="publisher" <?php if ($sort === 'publisher') echo 'selected'; ?>>Publisher</option>
-        </select>
-        <input type="submit" value="Search">
-    </form>
-    <h2>Book List</h2>
+    <h2>Welcome, <?php echo h($_SESSION['username']); ?></h2>
+
+    <h3>Your Books</h3>
     <ul>
         <?php foreach ($books as $book): ?>
-            <li>
-                <?php echo h($book['title']); ?> by <?php echo h($book['author']); ?>, published by <?php echo h($book['publisher']); ?>
-                <a href="delete_book.php?id=<?php echo h($book['id']); ?>">Delete</a>
-            </li>
+            <li><?php echo h($book['title']); ?> by <?php echo h($book['author']); ?>, published by <?php echo h($book['publisher']); ?></li>
         <?php endforeach; ?>
     </ul>
-    <p><a href="add_book.php">Add a new book</a></p>
-    <p><a href="logout.php">Logout</a></p>
+
+    <a href="add_book.html">Add a Book</a>
+    <br>
+    <a href="logout.php">Logout</a>
 </body>
 </html>

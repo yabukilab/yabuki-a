@@ -74,6 +74,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <br>
         <input type="submit" value="Add User">
     </form>
-    <p><a href="login.html">Go to Login</a></p>
 </body>
 </html>

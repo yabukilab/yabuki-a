@@ -86,4 +86,10 @@ ADD COLUMN user_id INT UNSIGNED,
 ADD CONSTRAINT fk_user
     FOREIGN KEY (user_id)
     REFERENCES users(id);
+    ALTER TABLE books
+ADD COLUMN user_id INT UNSIGNED,
+ADD CONSTRAINT fk_user
+    FOREIGN KEY (user_id)
+    REFERENCES users(id);
+
 

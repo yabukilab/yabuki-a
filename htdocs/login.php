@@ -32,11 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($username) && !empty($password)) {
         try {
             $stmt = $db->prepare("SELECT password FROM users WHERE username = :username");
-            $stmt->bindParam(':username', $username);
-            $stmt->execute();
+            $stmt->execute([':username' => $username]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($stmt->rowCount() > 0) {
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row) {
                 if (password_verify($password, $row['password'])) {
                     $_SESSION['username'] = $username;
                     header("Location: home.php");
@@ -55,3 +54,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form method="POST" action="login.php">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>

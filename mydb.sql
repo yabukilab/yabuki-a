@@ -14,29 +14,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `add_user`
---
-
-DROP TABLE IF EXISTS `add_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `add_user` (
-  `username` int(11) NOT NULL,
-  `password` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `add_user`
---
-
-LOCK TABLES `add_user` WRITE;
-/*!40000 ALTER TABLE `add_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `add_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
 --
 -- Table structure for table `books`
 --
@@ -44,14 +21,15 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `books`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `books` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `author` varchar(255) NOT NULL,
-  `publisher` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- books テーブルの作成
+CREATE TABLE books (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    publisher VARCHAR(255) NOT NULL,
+    username VARCHAR(255),
+    FOREIGN KEY (username) REFERENCES users(username)
+);
 
 --
 -- Dumping data for table `books`
@@ -66,23 +44,6 @@ UNLOCK TABLES;
 --
 -- Table structure for table `table`
 --
-
-DROP TABLE IF EXISTS `table`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `table` (
-  `1` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `table`
---
-
-LOCK TABLES `table` WRITE;
-/*!40000 ALTER TABLE `table` DISABLE KEYS */;
-/*!40000 ALTER TABLE `table` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `users`

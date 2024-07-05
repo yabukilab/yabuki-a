@@ -35,8 +35,8 @@ $books = []; // 初期化
 
 // ここにユーザーが登録した本を表示するコードを記述します
 try {
-    $stmt = $db->prepare("SELECT title, author, publisher FROM books WHERE user_id = (SELECT id FROM users WHERE username = :username) ORDER BY title ASC");
-    $stmt->execute([':username' => $_SESSION['username']]);
+    $stmt = $db->prepare("SELECT title, author, publisher FROM books WHERE user_id = :user_id ORDER BY title ASC");
+    $stmt->execute([':user_id' => $_SESSION['user_id']]);
     $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo "Error: " . h($e->getMessage());

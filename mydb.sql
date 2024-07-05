@@ -81,3 +81,9 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2024-06-28 14:51:04
+ALTER TABLE books
+ADD COLUMN user_id INT UNSIGNED,
+ADD CONSTRAINT fk_user
+    FOREIGN KEY (user_id)
+    REFERENCES users(id);
+

@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             // ユーザー名の重複チェック
             $stmt = $db->prepare("SELECT COUNT(*) FROM users WHERE username = :username");
-            $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+            $stmt->bindValue(':username', $username, PDO::PARAM_STR);
             $stmt->execute();
             $count = $stmt->fetchColumn();
 
@@ -41,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // 新しいユーザーを追加
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                 $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
-                $stmt->bindParam(':username', $username, PDO::PARAM_STR);
-                $stmt->bindParam(':password', $hashed_password, PDO::PARAM_STR);
+                $stmt->bindValue(':username', $username, PDO::PARAM_STR);
+                $stmt->bindValue(':password', $hashed_password, PDO::PARAM_STR);
                 $stmt->execute();
                 echo "User registered successfully.";
                 echo "<p><a href='login.html'>Go to Login</a></p>";

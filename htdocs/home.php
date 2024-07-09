@@ -31,13 +31,12 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-$user_id = $_SESSION['user_id'];
 $books = []; // 初期化
 
 // ここにユーザーが登録した本を表示するコードを記述します
 try {
     $stmt = $db->prepare("SELECT title, author, publisher FROM books WHERE user_id = :user_id ORDER BY title ASC");
-    $stmt->execute([':user_id' => $user_id]);
+    $stmt->execute([':user_id' => $_SESSION['user_id']]);
     $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo "Error: " . h($e->getMessage());
@@ -66,7 +65,3 @@ try {
     <a href="logout.php">Logout</a>
 </body>
 </html>
-
-
-
-

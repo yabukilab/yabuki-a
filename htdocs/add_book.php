@@ -1,18 +1,19 @@
 <?php
 session_start();
 
-function h($var) {
-    if (is_array($var)) {
-        return array_map('h', $var);
-    } else {
-        return htmlspecialchars($var, ENT_QUOTES, 'UTF-8');
-    }
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.html");
+    exit();
 }
 
-$dbServer = isset($_ENV['MYSQL_SERVER']) ? $_ENV['MYSQL_SERVER'] : '127.0.0.1';
-$dbUser = isset($_SERVER['MYSQL_USER']) ? $_SERVER['MYSQL_USER'] : 'testuser';
-$dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
-$dbName = isset($_SERVER['MYSQL_DB']) ? $_SERVER['MYSQL_DB'] : 'mydb';
+function h($var) {
+    return is_array($var) ? array_map('h', $var) : htmlspecialchars($var, ENT_QUOTES, 'UTF-8');
+}
+
+$dbServer = '127.0.0.1';
+$dbUser = 'testuser';
+$dbPass = 'pass';
+$dbName = 'mydb';
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 
@@ -25,13 +26,11 @@ try {
     exit();
 }
 
-// ユーザーIDを取得
-$user_id = $_SESSION['user_id'];
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST['title'];
     $author = $_POST['author'];
     $publisher = $_POST['publisher'];
+    $user_id = $_SESSION['user_id'];
 
     try {
         $stmt = $db->prepare("INSERT INTO books (title, author, publisher, user_id) VALUES (:title, :author, :publisher, :user_id)");
@@ -48,28 +47,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Book</title>
 </head>
 <body>
     <form action="add_book.php" method="post">
-        <div>
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
-        </div>
-        <div>
-            <label for="author">Author:</label>
-            <input type="text" id="author" name="author" required>
-        </div>
-        <div>
-            <label for="publisher">Publisher:</label>
-            <input type="text" id="publisher" name="publisher" required>
-        </div>
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" required>
+        <label for="publisher">Publisher:</label>
+        <input type="text" id="publisher" name="publisher" required>
         <button type="submit">Add Book</button>
     </form>
     <a href="home.php">Back to Home</a>

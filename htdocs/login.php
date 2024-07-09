@@ -2,17 +2,13 @@
 session_start();
 
 function h($var) {
-    if (is_array($var)) {
-        return array_map('h', $var);
-    } else {
-        return htmlspecialchars($var, ENT_QUOTES, 'UTF-8');
-    }
+    return is_array($var) ? array_map('h', $var) : htmlspecialchars($var, ENT_QUOTES, 'UTF-8');
 }
 
-$dbServer = isset($_ENV['MYSQL_SERVER']) ? $_ENV['MYSQL_SERVER'] : '127.0.0.1';
-$dbUser = isset($_SERVER['MYSQL_USER']) ? $_SERVER['MYSQL_USER'] : 'testuser';
-$dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
-$dbName = isset($_SERVER['MYSQL_DB']) ? $_SERVER['MYSQL_DB'] : 'mydb';
+$dbServer = '127.0.0.1';
+$dbUser = 'testuser';
+$dbPass = 'pass';
+$dbName = 'mydb';
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 
@@ -35,8 +31,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['username'] = $username;
             $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $username;
             header("Location: home.php");
             exit();
         } else {
@@ -47,28 +43,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 </head>
 <body>
     <form action="login.php" method="post">
-        <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-        </div>
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-        </div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
         <button type="submit">Login</button>
     </form>
-    <a href="add_user.html">Register</a>
+    <a href="add_user.php">Add User</a>
 </body>
 </html>
+
 
 

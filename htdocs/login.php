@@ -25,34 +25,24 @@ try {
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    if (!empty($username) && !empty($password)) {
-        try {
-            // ユーザー名の存在確認
-            $stmt = $db->prepare("SELECT password FROM users WHERE username = :username");
-            $stmt->execute([':username' => $username]);
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    try {
+        $stmt = $db->prepare("SELECT password FROM users WHERE username = :username");
+        $stmt->execute([':username' => $username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($row) {
-                // パスワードの一致確認
-                if (password_verify($password, $row['password'])) {
-                    $_SESSION['username'] = $username;
-                    header("Location: home.php");
-                    exit();
-                } else {
-                    echo "Incorrect password.";
-                }
-            } else {
-                echo "Username not found.";
-            }
-        } catch (PDOException $e) {
-            echo "Error: " . h($e->getMessage());
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['username'] = $username;
+            header("Location: home.php");
+            exit();
+        } else {
+            echo "Incorrect username or password.";
         }
-    } else {
-        echo "Username and password cannot be empty.";
+    } catch (PDOException $e) {
+        echo "Error: " . h($e->getMessage());
     }
 }
 ?>
@@ -65,15 +55,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Login</title>
 </head>
 <body>
-    <h2>Login</h2>
-    <form method="POST" action="login.php">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <input type="submit" value="Login">
+    <form action="login.php" method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Login</button>
     </form>
+    <a href="add_user.html">Register</a>
 </body>
 </html>
+

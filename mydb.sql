@@ -97,7 +97,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,7 +106,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'testuser','$2y$10$tKCCJ/OlANyZjdL2HbfcAevc.gmkC8nltjxWwsBHoO03wUCnNABMm'),(6,'test','$2y$10$Sc7dxa1brbyQNBNZYHeLaecD/p9TXOJxaEkNaSQ/3c0xdeCQbIfji');
+INSERT INTO `users` VALUES (1,'testuser','$2y$10$tKCCJ/OlANyZjdL2HbfcAevc.gmkC8nltjxWwsBHoO03wUCnNABMm'),(6,'test','$2y$10$Sc7dxa1brbyQNBNZYHeLaecD/p9TXOJxaEkNaSQ/3c0xdeCQbIfji'),(9,'y','$2y$10$CMQTSaKul3JXgBnbek9FZOUVzrnIAo8kt/21H7J3qJsoOaMt5ckE2');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -119,4 +119,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-10  1:05:46
+-- Dump completed on 2024-07-10  2:29:58

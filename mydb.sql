@@ -8,6 +8,6 @@ CREATE TABLE IF NOT EXISTS books (
     title VARCHAR(255) NOT NULL,
     author VARCHAR(255) NOT NULL,
     publisher VARCHAR(255) NOT NULL,
-    user_id INT,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    username INT,
+    FOREIGN KEY (username) REFERENCES users(id)
 );

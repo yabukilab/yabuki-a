@@ -25,19 +25,21 @@ try {
     exit();
 }
 
+// ユーザーIDを取得
+$user_id = $_SESSION['user_id'];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST['title'];
     $author = $_POST['author'];
     $publisher = $_POST['publisher'];
-    $username = $_SESSION['username'];
 
     try {
-        $stmt = $db->prepare("INSERT INTO books (title, author, publisher, username) VALUES (:title, :author, :publisher, :username)");
+        $stmt = $db->prepare("INSERT INTO books (title, author, publisher, user_id) VALUES (:title, :author, :publisher, :user_id)");
         $stmt->execute([
             ':title' => $title,
             ':author' => $author,
             ':publisher' => $publisher,
-            ':username' => $username
+            ':user_id' => $user_id
         ]);
         header("Location: home.php");
         exit();
@@ -73,3 +75,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a href="home.php">Back to Home</a>
 </body>
 </html>
+

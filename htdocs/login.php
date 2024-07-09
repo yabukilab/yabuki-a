@@ -30,12 +30,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     try {
-        $stmt = $db->prepare("SELECT password FROM users WHERE username = :username");
+        $stmt = $db->prepare("SELECT id, password FROM users WHERE username = :username");
         $stmt->execute([':username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['username'] = $username;
+            $_SESSION['user_id'] = $user['id'];
             header("Location: home.php");
             exit();
         } else {
@@ -69,4 +70,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a href="add_user.html">Register</a>
 </body>
 </html>
+
 

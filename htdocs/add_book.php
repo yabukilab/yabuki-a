@@ -25,26 +25,24 @@ try {
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = $_POST['title'] ?? '';
-    $author = $_POST['author'] ?? '';
-    $publisher = $_POST['publisher'] ?? '';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $title = $_POST['title'];
+    $author = $_POST['author'];
+    $publisher = $_POST['publisher'];
+    $username = $_SESSION['username'];
 
-    if (!empty($title) && !empty($author) && !empty($publisher)) {
-        try {
-            $stmt = $db->prepare("INSERT INTO books (title, author, publisher) VALUES (:title, :author, :publisher)");
-            $stmt->bindParam(':title', $title);
-            $stmt->bindParam(':author', $author);
-            $stmt->bindParam(':publisher', $publisher);
-            $stmt->execute();
-
-            echo "Book successfully added.";
-            echo "<p><a href='home.php'>Go to home page</a></p>";
-        } catch (PDOException $e) {
-            echo "Error: " . h($e->getMessage());
-        }
-    } else {
-        echo "Title, author, and publisher cannot be empty.";
+    try {
+        $stmt = $db->prepare("INSERT INTO books (title, author, publisher, username) VALUES (:title, :author, :publisher, :username)");
+        $stmt->execute([
+            ':title' => $title,
+            ':author' => $author,
+            ':publisher' => $publisher,
+            ':username' => $username
+        ]);
+        header("Location: home.php");
+        exit();
+    } catch (PDOException $e) {
+        echo "Error: " . h($e->getMessage());
     }
 }
 ?>
@@ -57,18 +55,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Add Book</title>
 </head>
 <body>
-    <h2>Add Book</h2>
-    <form method="POST" action="add_book.php">
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required>
-        <br>
-        <label for="author">Author:</label>
-        <input type="text" id="author" name="author" required>
-        <br>
-        <label for="publisher">Publisher:</label>
-        <input type="text" id="publisher" name="publisher" required>
-        <br>
-        <input type="submit" value="Add Book">
+    <form action="add_book.php" method="post">
+        <div>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div>
+            <label for="author">Author:</label>
+            <input type="text" id="author" name="author" required>
+        </div>
+        <div>
+            <label for="publisher">Publisher:</label>
+            <input type="text" id="publisher" name="publisher" required>
+        </div>
+        <button type="submit">Add Book</button>
     </form>
+    <a href="home.php">Back to Home</a>
 </body>
 </html>

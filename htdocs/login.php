@@ -3,8 +3,8 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $dbServer = '127.0.0.1';
-    $dbUser = 'root';
-    $dbPass = '';
+    $dbUser = 'testuser';
+    $dbPass = 'pass';
     $dbName = 'mydb';
 
     $user = $_POST['username'];

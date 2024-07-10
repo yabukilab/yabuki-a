@@ -9,10 +9,10 @@ function h($var) {
     }
 }
 
-$dbServer = isset($_ENV['MYSQL_SERVER']) ? $_ENV['MYSQL_SERVER'] : '127.0.0.1';
-$dbUser = isset($_SERVER['MYSQL_USER']) ? $_SERVER['MYSQL_USER'] : 'testuser';
-$dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
-$dbName = isset($_SERVER['MYSQL_DB']) ? $_SERVER['MYSQL_DB'] : 'mydb';
+$dbServer = '127.0.0.1';
+$dbUser = 'root';
+$dbPass = '';
+$dbName = 'mydb';
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 
@@ -25,7 +25,7 @@ try {
     exit();
 }
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
@@ -33,8 +33,9 @@ if (!isset($_SESSION['username'])) {
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     try {
-        $stmt = $db->prepare("DELETE FROM books WHERE id = :id");
+        $stmt = $db->prepare("DELETE FROM books WHERE id = :id AND user_id = :user_id");
         $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':user_id', $_SESSION['user_id']);
         $stmt->execute();
         header("Location: home.php");
         exit();
@@ -44,3 +45,4 @@ if (isset($_GET['id'])) {
 } else {
     echo "Invalid book ID.";
 }
+?>

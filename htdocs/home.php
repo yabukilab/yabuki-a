@@ -9,10 +9,10 @@ function h($var) {
     }
 }
 
-$dbServer = isset($_ENV['MYSQL_SERVER']) ? $_ENV['MYSQL_SERVER'] : '127.0.0.1';
-$dbUser = isset($_SERVER['MYSQL_USER']) ? $_SERVER['MYSQL_USER'] : 'testuser';
-$dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
-$dbName = isset($_SERVER['MYSQL_DB']) ? $_SERVER['MYSQL_DB'] : 'mydb';
+$dbServer = '127.0.0.1';
+$dbUser = 'root';
+$dbPass = '';
+$dbName = 'mydb';
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 
@@ -25,7 +25,7 @@ try {
     exit();
 }
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
@@ -33,7 +33,13 @@ if (!isset($_SESSION['username'])) {
 $search = $_GET['search'] ?? '';
 $sort = $_GET['sort'] ?? '';
 
-$query = "SELECT * FROM books WHERE title LIKE :search OR author LIKE :search OR publisher LIKE :search";
+$user_id = $_SESSION['user_id'];
+
+$query = "SELECT * FROM books WHERE user_id = :user_id";
+
+if (!empty($search)) {
+    $query .= " AND (title LIKE :search OR author LIKE :search2 OR publisher LIKE :search3)";
+}
 
 if ($sort === 'title') {
     $query .= " ORDER BY title ASC";
@@ -45,7 +51,15 @@ if ($sort === 'title') {
 
 try {
     $stmt = $db->prepare($query);
-    $stmt->bindValue(':search', "%$search%");
+    $stmt->bindParam(':user_id', $user_id);
+    
+    if (!empty($search)) {
+        $searchWildcard = "%$search%";
+        $stmt->bindValue(':search', $searchWildcard, PDO::PARAM_STR);
+        $stmt->bindValue(':search2', $searchWildcard, PDO::PARAM_STR);
+        $stmt->bindValue(':search3', $searchWildcard, PDO::PARAM_STR);
+    }
+    
     $stmt->execute();
     $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -55,37 +69,38 @@ try {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>ホーム画面</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h2>Welcome, <?php echo h($_SESSION['username']); ?>!</h2>
+    <div class="header"></div>
+    <h1>ようこそ、 <?php echo h($_SESSION['username']); ?>さん</h1>
     <form method="GET" action="home.php">
-        <label for="search">Search:</label>
+        <label for="search">検索:</label>
         <input type="text" id="search" name="search" value="<?php echo h($search); ?>">
-        <label for="sort">Sort by:</label>
+        <label for="sort">並び替え</label>
         <select id="sort" name="sort">
-            <option value="">Select</option>
-            <option value="title" <?php if ($sort === 'title') echo 'selected'; ?>>Title</option>
-            <option value="author" <?php if ($sort === 'author') echo 'selected'; ?>>Author</option>
-            <option value="publisher" <?php if ($sort === 'publisher') echo 'selected'; ?>>Publisher</option>
+            <option value="">選択</option>
+            <option value="title" <?php if ($sort === 'title') echo 'selected'; ?>>タイトル</option>
+            <option value="author" <?php if ($sort === 'author') echo 'selected'; ?>>著者</option>
+            <option value="publisher" <?php if ($sort === 'publisher') echo 'selected'; ?>>出版社</option>
         </select>
-        <input type="submit" value="Search">
+        <input type="submit" value="検索">
     </form>
-    <h2>Book List</h2>
+    <h2>書籍一覧</h2>
     <ul>
         <?php foreach ($books as $book): ?>
             <li>
-                <?php echo h($book['title']); ?> by <?php echo h($book['author']); ?>, published by <?php echo h($book['publisher']); ?>
-                <a href="delete_book.php?id=<?php echo h($book['id']); ?>">Delete</a>
+                <?php echo h($book['title']); ?> 著者: <?php echo h($book['author']); ?>, 出版社: <?php echo h($book['publisher']); ?>
+                <a href="delete_book.php?id=<?php echo h($book['book_id']); ?>">書籍の削除</a>
             </li>
         <?php endforeach; ?>
     </ul>
-    <p><a href="add_book.php">Add a new book</a></p>
-    <p><a href="logout.php">Logout</a></p>
+    <p><a href="add_book.php">書籍の追加</a></p>
+    <p><a href="logout.php">ログアウト</a></p>
 </body>
 </html>
-

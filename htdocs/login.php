@@ -1,62 +1,67 @@
 <?php
 session_start();
 
-function h($var) {
-    return is_array($var) ? array_map('h', $var) : htmlspecialchars($var, ENT_QUOTES, 'UTF-8');
-}
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $dbServer = '127.0.0.1';
+    $dbUser = 'root';
+    $dbPass = '';
+    $dbName = 'mydb';
 
-$dbServer = '127.0.0.1';
-$dbUser = 'testuser';
-$dbPass = 'pass';
-$dbName = 'mydb';
+    $user = $_POST['username'];
+    $pass = $_POST['password'];
 
-$dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
-
-try {
-    $db = new PDO($dsn, $dbUser, $dbPass);
-    $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo "Can't connect to the database: " . h($e->getMessage());
-    exit();
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ];
 
     try {
-        $stmt = $db->prepare("SELECT id, password FROM users WHERE username = :username");
-        $stmt->execute([':username' => $username]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $db = new PDO($dsn, $dbUser, $dbPass, $options);
 
-        if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $username;
-            header("Location: home.php");
-            exit();
+        $stmt = $db->prepare("SELECT user_id, username, password FROM users WHERE username = ?");
+        $stmt->execute([$user]);
+
+        if ($stmt->rowCount() > 0) {
+            $row = $stmt->fetch();
+            if (password_verify($pass, $row['password'])) {
+                // ログイン成功 - セッション変数を設定
+                $_SESSION['user_id'] = $row['user_id'];
+                $_SESSION['username'] = $row['username'];
+                header('Location: home.php');
+                exit();
+            } else {
+                echo "IDまたはパスワードが間違っています。";
+            }
         } else {
-            echo "Incorrect username or password.";
+            echo "IDまたはパスワードが間違っています。";
         }
     } catch (PDOException $e) {
-        echo "Error: " . h($e->getMessage());
+        echo "Can't connect to the database: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     }
+} else {
+    ?>
+    <!DOCTYPE html>
+    <html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ログイン画面</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="header"></div>
+        <h1>本棚管理システム</h1>
+        <form action="" method="post">
+            <label for="username">ユーザ名:</label><br>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for="password">パスワード:</label><br>
+            <input type="password" id="password" name="password" required><br><br>
+            <input type="submit" value="ログイン">
+        </form>
+        <p>アカウントをお持ちではありませんか？<a href="add_user.php">ユーザ追加はこちら</a></p> 
+    </body>
+    </html>
+    <?php
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
-    <form action="login.php" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <button type="submit">Login</button>
-    </form>
-    <a href="add_user.php">Add User</a>
-</body>
-</html>

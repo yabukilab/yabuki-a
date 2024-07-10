@@ -1,9 +1,11 @@
+# (A2)mydbというデータベースを作る．
+create database mydb charset=utf8mb4;
+
+# (A3)ユーザ名testuser，パスワードpassでmydbにアクセスできるようにする．
 grant all on mydb.* to testuser@localhost identified by 'pass';
 
--- データベースの使用
-USE mydb;
-
-
+# (A4)mydbを使うことを宣言する．
+use mydb;
 -- ユーザ情報テーブルの作成
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,

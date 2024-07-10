@@ -1,19 +1,18 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.html");
-    exit();
-}
-
 function h($var) {
-    return is_array($var) ? array_map('h', $var) : htmlspecialchars($var, ENT_QUOTES, 'UTF-8');
+    if (is_array($var)) {
+        return array_map('h', $var);
+    } else {
+        return htmlspecialchars($var, ENT_QUOTES, 'UTF-8');
+    }
 }
 
-$dbServer = '127.0.0.1';
-$dbUser = 'testuser';
-$dbPass = 'pass';
-$dbName = 'mydb';
+$dbServer = isset($_ENV['MYSQL_SERVER']) ? $_ENV['MYSQL_SERVER'] : '127.0.0.1';
+$dbUser = isset($_SERVER['MYSQL_USER']) ? $_SERVER['MYSQL_USER'] : 'testuser';
+$dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
+$dbName = isset($_SERVER['MYSQL_DB']) ? $_SERVER['MYSQL_DB'] : 'mydb';
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 
@@ -26,45 +25,53 @@ try {
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $title = $_POST['title'];
-    $author = $_POST['author'];
-    $publisher = $_POST['publisher'];
-    $user_id = $_SESSION['user_id'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = $_POST['title'] ?? '';
+    $author = $_POST['author'] ?? '';
+    $publisher = $_POST['publisher'] ?? '';
 
-    try {
-        $stmt = $db->prepare("INSERT INTO books (title, author, publisher, user_id) VALUES (:title, :author, :publisher, :user_id)");
-        $stmt->execute([
-            ':title' => $title,
-            ':author' => $author,
-            ':publisher' => $publisher,
-            ':user_id' => $user_id
-        ]);
-        header("Location: home.php");
-        exit();
-    } catch (PDOException $e) {
-        echo "Error: " . h($e->getMessage());
+    if (!empty($title) && !empty($author) && !empty($publisher)) {
+        try {
+            $stmt = $db->prepare("INSERT INTO books (title, author, publisher) VALUES (:title, :author, :publisher)");
+            $stmt->bindParam(':title', $title);
+            $stmt->bindParam(':author', $author);
+            $stmt->bindParam(':publisher', $publisher);
+            $stmt->execute();
+
+            echo "Book successfully added.";
+            echo "<p><a href='home.php'>Go to home page</a></p>";
+        } catch (PDOException $e) {
+            echo "Error: " . h($e->getMessage());
+        }
+    } else {
+        echo "Title, author, and publisher cannot be empty.";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Book</title>
 </head>
 <body>
-    <form action="add_book.php" method="post">
+    <h2>Add Book</h2>
+    <form method="POST" action="add_book.php">
         <label for="title">Title:</label>
         <input type="text" id="title" name="title" required>
+        <br>
         <label for="author">Author:</label>
         <input type="text" id="author" name="author" required>
+        <br>
         <label for="publisher">Publisher:</label>
         <input type="text" id="publisher" name="publisher" required>
-        <button type="submit">Add Book</button>
+        <br>
+        <input type="submit" value="Add Book">
     </form>
-    <a href="home.php">Back to Home</a>
 </body>
 </html>
+
 
 

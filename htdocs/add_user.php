@@ -1,12 +1,16 @@
 <?php
 function h($var) {
-    return is_array($var) ? array_map('h', $var) : htmlspecialchars($var, ENT_QUOTES, 'UTF-8');
+    if (is_array($var)) {
+        return array_map('h', $var);
+    } else {
+        return htmlspecialchars($var, ENT_QUOTES, 'UTF-8');
+    }
 }
 
-$dbServer = '127.0.0.1';
-$dbUser = 'testuser';
-$dbPass = 'pass';
-$dbName = 'mydb';
+$dbServer = isset($_ENV['MYSQL_SERVER']) ? $_ENV['MYSQL_SERVER'] : '127.0.0.1';
+$dbUser = isset($_SERVER['MYSQL_USER']) ? $_SERVER['MYSQL_USER'] : 'testuser';
+$dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
+$dbName = isset($_SERVER['MYSQL_DB']) ? $_SERVER['MYSQL_DB'] : 'mydb';
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 
@@ -19,35 +23,47 @@ try {
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-    try {
-        $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
-        $stmt->execute([':username' => $username, ':password' => $password]);
-        header("Location: login.html");
-        exit();
-    } catch (PDOException $e) {
-        echo "Error: " . h($e->getMessage());
+    if (!empty($username) && !empty($password)) {
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        try {
+            $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':password', $hashed_password);
+            $stmt->execute();
+
+            echo "User successfully added.";
+            echo "<p><a href='login.html'>Go to login page</a></p>";
+        } catch (PDOException $e) {
+            echo "Error: " . h($e->getMessage());
+        }
+    } else {
+        echo "Username and password cannot be empty.";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add User</title>
 </head>
 <body>
-    <form action="add_user.php" method="post">
+    <h2>Add User</h2>
+    <form method="POST" action="add_user.php">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
+        <br>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
-        <button type="submit">Add User</button>
+        <br>
+        <input type="submit" value="Add User">
     </form>
-    <a href="login.html">Back to Login</a>
 </body>
 </html>
-

@@ -7,10 +7,10 @@ function h($var) {
     }
 }
 
-$dbServer = '127.0.0.1';
-$dbUser = 'testuser';
-$dbPass = 'pass';
-$dbName = 'mydb';
+$dbServer = 'localhost';  // ホスト名を確認してください
+$dbUser = 'testuser';     // ユーザー名を確認してください
+$dbPass = 'pass';         // パスワードを確認してください
+$dbName = 'mydb';         // データベース名を確認してください
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 
@@ -23,3 +23,4 @@ try {
     exit;
 }
 ?>
+

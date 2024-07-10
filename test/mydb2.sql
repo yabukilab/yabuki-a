@@ -1,8 +1,7 @@
+grant all on mydb.* to testuser@localhost identified by 'pass';
 
 -- データベースの使用
 USE mydb;
-
-grant all on mydb.* to testuser@localhost identified by 'pass';
 
 
 -- ユーザ情報テーブルの作成

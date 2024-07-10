@@ -2,6 +2,9 @@
 -- データベースの使用
 USE mydb;
 
+grant all on mydb.* to testuser@localhost identified by 'pass';
+
+
 -- ユーザ情報テーブルの作成
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,

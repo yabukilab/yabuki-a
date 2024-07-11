@@ -10,9 +10,9 @@ function h($var) {
 }
 
 $dbServer = '127.0.0.1';
-$dbUser = 'root';
-$dbPass = '';
-$dbName = 'mydb';
+$dbUser = 'testuser';
+$dbPass = 'pass';
+$dbName = 'yabukia';
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 

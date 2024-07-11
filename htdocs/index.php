@@ -2,10 +2,10 @@
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $dbServer = '127.0.0.1';
-    $dbUser = 'testuser';
-    $dbPass = 'pass';
-    $dbName = 'yabukia';
+    $dbServer = isset($_ENV['MYSQL_SERVER'])    ? $_ENV['MYSQL_SERVER']      : '127.0.0.1';
+    $dbUser = isset($_SERVER['MYSQL_USER'])     ? $_SERVER['MYSQL_USER']     : 'testuser';
+    $dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
+    $dbName = isset($_SERVER['MYSQL_DB'])       ? $_SERVER['MYSQL_DB']       : 'yabukia';
 
     $user = $_POST['username'];
     $pass = $_POST['password'];
@@ -50,16 +50,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <div class="header"></div>
-        <h1>本棚管理システム</h1>
-        <form action="" method="post">
-            <label for="username">ユーザ名:</label><br>
-            <input type="text" id="username" name="username" required><br><br>
-            <label for="password">パスワード:</label><br>
-            <input type="password" id="password" name="password" required><br><br>
-            <input type="submit" value="ログイン">
-        </form>
-        <p>アカウントをお持ちではありませんか？<a href="add_user.php">ユーザ追加はこちら</a></p> 
+        <div class="header">本棚管理システム</div>
+        <div class="container">
+            <h1>ログイン画面</h1>
+            <form id="loginForm" action="" method="post">
+                <label for="username">ユーザ名:</label><br>
+                <input type="text" id="username" name="username" required><br><br>
+                <label for="password">パスワード:</label><br>
+                <input type="password" id="password" name="password" required><br><br>
+                <!-- ログインボタン -->
+                <button type="submit" class="btn btn--orange btn--radius">ログイン</button>
+            </form>
+            <p>アカウントをお持ちではありませんか？<a href="add_user.php">ユーザ追加はこちら</a></p> 
+        </div>
     </body>
     </html>
     <?php

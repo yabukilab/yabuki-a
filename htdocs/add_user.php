@@ -1,4 +1,5 @@
 <?php
+$_SERVER['MYSQL_DB'] = 'mydb';
 session_start();
 
 function h($var) {

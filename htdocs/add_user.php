@@ -30,12 +30,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
 
     if (!empty($username) && !empty($password)) {
+        // パスワードのハッシュ化
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         try {
+            // プリペアドステートメントを使用して安全にデータを挿入
             $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
-            $stmt->bindParam(':username', $username);
-            $stmt->bindParam(':password', $hashed_password);
+            $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+            $stmt->bindParam(':password', $hashed_password, PDO::PARAM_STR);
             $stmt->execute();
 
             echo "ユーザが追加されました。";

@@ -1,5 +1,5 @@
 <?php
-require"db.php";
+  require 'db.php'; 
 // PDOオブジェクトの作成
 $db = new PDO($dsn, $dbUser, $dbPass);
 # プリペアドステートメントのエミュレーションを無効にする．

@@ -1,5 +1,5 @@
 <?php
-require"db.php";
+require 'db.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'] ?? '';
     $author = $_POST['author'] ?? '';

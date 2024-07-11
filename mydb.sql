@@ -1,104 +1,80 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
+-- MariaDB dump 10.19  Distrib 10.4.32-MariaDB, for Win64 (AMD64)
 --
--- ホスト: 127.0.0.1
--- 生成日時: 2024-07-11 22:26:33
--- サーバのバージョン： 10.4.32-MariaDB
--- PHP のバージョン: 8.2.12
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
+-- Host: localhost    Database: mydb
+-- ------------------------------------------------------
+-- Server version	10.4.32-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- データベース: `mydb`
+-- Table structure for table `book2`
 --
 
--- --------------------------------------------------------
-
----- 既存のtestuserユーザーを削除して再作成する（必要に応じて）
-DROP USER IF EXISTS 'testuser'@'localhost';
-CREATE USER 'testuser'@'localhost' IDENTIFIED BY 'pass';
-
--- testuserユーザーにmydbデータベースへのすべての権限を付与する
-GRANT ALL PRIVILEGES ON mydb.* TO 'testuser'@'localhost';
-FLUSH PRIVILEGES;
-
--- テーブルの構造 `book2`
---
-
+DROP TABLE IF EXISTS `book2`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `book2` (
-  `book_id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `author` varchar(255) DEFAULT NULL,
-  `publisher` varchar(255) DEFAULT NULL
+  `publisher` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`book_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `book2_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user2` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- テーブルの構造 `user2`
+-- Dumping data for table `book2`
 --
 
+LOCK TABLES `book2` WRITE;
+/*!40000 ALTER TABLE `book2` DISABLE KEYS */;
+/*!40000 ALTER TABLE `book2` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user2`
+--
+
+DROP TABLE IF EXISTS `user2`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user2` (
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- ダンプしたテーブルのインデックス
+-- Dumping data for table `user2`
 --
 
---
--- テーブルのインデックス `book2`
---
-ALTER TABLE `book2`
-  ADD PRIMARY KEY (`book_id`),
-  ADD KEY `user_id` (`user_id`);
+LOCK TABLES `user2` WRITE;
+/*!40000 ALTER TABLE `user2` DISABLE KEYS */;
+INSERT INTO `user2` VALUES (1,'y','$2y$10$Ik0FqZjL0e24AABVNO7lh.x5ZZ3s.IZu07yf3eU727MupPlBOBQGC');
+/*!40000 ALTER TABLE `user2` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
---
--- テーブルのインデックス `user2`
---
-ALTER TABLE `user2`
-  ADD PRIMARY KEY (`user_id`);
-
---
--- ダンプしたテーブルの AUTO_INCREMENT
---
-
---
--- テーブルの AUTO_INCREMENT `book2`
---
-ALTER TABLE `book2`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- テーブルの AUTO_INCREMENT `user2`
---
-ALTER TABLE `user2`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- ダンプしたテーブルの制約
---
-
---
--- テーブルの制約 `book2`
---
-ALTER TABLE `book2`
-  ADD CONSTRAINT `book2_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user2` (`user_id`);
-COMMIT;
-
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+-- Dump completed on 2024-07-12  5:40:34

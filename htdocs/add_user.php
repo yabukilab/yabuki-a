@@ -1,4 +1,5 @@
 <?php
+$_SERVER['MYSQL_DB'] = 'mydb';
 require 'db.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';

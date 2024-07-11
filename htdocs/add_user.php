@@ -1,7 +1,4 @@
-<?php
-session_start();
-
-# HTMLでのエスケープ処理をする関数
+<<?php
 function h($var) {
     if (is_array($var)) {
         return array_map('h', $var);
@@ -10,68 +7,49 @@ function h($var) {
     }
 }
 
-$dbServer = isset($_ENV['MYSQL_SERVER'])    ? $_ENV['MYSQL_SERVER']      : '127.0.0.1';
-$dbUser = isset($_SERVER['MYSQL_USER'])     ? $_SERVER['MYSQL_USER']     : 'testuser';
-$dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
-$dbName = isset($_SERVER['MYSQL_DB'])       ? $_SERVER['MYSQL_DB']       : 'mydb';
+$dbServer = 'localhost';
+$dbUser = 'testuser';
+$dbPass = 'pass';
+$dbName = 'mydb';
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 
 try {
     $db = new PDO($dsn, $dbUser, $dbPass);
-    # プリペアドステートメントのエミュレーションを無効にする
     $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    # エラー→例外
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo "Can't connect to the database: " . h($e->getMessage());
-    exit();
+    exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = h($_POST["username"]);
+    $password = password_hash(h($_POST["password"]), PASSWORD_DEFAULT);
 
-    if (!empty($username) && !empty($password)) {
-        // パスワードのハッシュ化
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    try {
+        // 既存のユーザー名をチェック
+        $stmt = $db->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
+        $stmt->execute([$username]);
+        $count = $stmt->fetchColumn();
 
-        try {
-            // プリペアドステートメントを使用して安全にデータを挿入
-            $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
-            $stmt->bindParam(':username', $username, PDO::PARAM_STR);
-            $stmt->bindParam(':password', $hashed_password, PDO::PARAM_STR);
-            $stmt->execute();
-
-            echo "ユーザが追加されました。";
-            echo "<p><a href='index.php'>ログイン画面へ戻る。</a></p>";
-        } catch (PDOException $e) {
-            echo "Error: " . h($e->getMessage());
+        if ($count > 0) {
+            echo "Error: Username already exists.";
+        } else {
+            // ユーザーを追加
+            $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+            $stmt->execute([$username, $password]);
+            echo "User added successfully.";
         }
-    } else {
-        echo "ユーザ名とパスワードは空にできません。";
+    } catch (PDOException $e) {
+        echo "Error: " . h($e->getMessage());
     }
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ユーザ追加画面</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-
-<body>
-    <div class="header"></div>
-    <h1>ユーザ追加画面</h1>
-    <form action="add_user.php" method="post">
-        <label for="username">ユーザ名:</label><br>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">パスワード:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" value="ユーザ追加" class="btn btn--orange">
-    </form>
-</body>
-</html>
+<!-- HTMLフォーム -->
+<form method="post" action="add_user.php">
+    Username: <input type="text" name="username">
+    Password: <input type="password" name="password">
+    <input type="submit" value="Add User">
+</form>

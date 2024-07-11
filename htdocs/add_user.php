@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute();
 
             echo "ユーザが追加されました。";
-            echo "<p><a href='index.php'>ログイン画面へ戻る。</a></p>";
+            echo "<p><a href='login.php'>ログイン画面へ戻る。</a></p>";
         } catch (PDOException $e) {
             echo "Error: " . h($e->getMessage());
         }

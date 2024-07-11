@@ -15,5 +15,5 @@ CREATE TABLE books (
     title VARCHAR(100) NOT NULL,
     author VARCHAR(100) NOT NULL,
     publisher VARCHAR(100) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    
 );

@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `books`
+-- Table structure for table `book2`
 --
 
-DROP TABLE IF EXISTS `books`;
+DROP TABLE IF EXISTS `book2`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `books` (
+CREATE TABLE `book2` (
   `book_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
@@ -30,62 +30,42 @@ CREATE TABLE `books` (
   `publisher` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`book_id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `books_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `book2_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user2` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `books`
+-- Dumping data for table `book2`
 --
 
-LOCK TABLES `books` WRITE;
-/*!40000 ALTER TABLE `books` DISABLE KEYS */;
-/*!40000 ALTER TABLE `books` ENABLE KEYS */;
+LOCK TABLES `book2` WRITE;
+/*!40000 ALTER TABLE `book2` DISABLE KEYS */;
+/*!40000 ALTER TABLE `book2` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `table`
+-- Table structure for table `user2`
 --
 
-DROP TABLE IF EXISTS `table`;
+DROP TABLE IF EXISTS `user2`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `table` (
-  `1` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `table`
---
-
-LOCK TABLES `table` WRITE;
-/*!40000 ALTER TABLE `table` DISABLE KEYS */;
-/*!40000 ALTER TABLE `table` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
+CREATE TABLE `user2` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `user2`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+LOCK TABLES `user2` WRITE;
+/*!40000 ALTER TABLE `user2` DISABLE KEYS */;
+INSERT INTO `user2` VALUES (1,'y','$2y$10$Ik0FqZjL0e24AABVNO7lh.x5ZZ3s.IZu07yf3eU727MupPlBOBQGC');
+/*!40000 ALTER TABLE `user2` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -97,4 +77,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-11 19:10:51
+-- Dump completed on 2024-07-12  5:40:34

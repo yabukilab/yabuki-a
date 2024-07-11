@@ -3,8 +3,8 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $dbServer = isset($_ENV['MYSQL_SERVER'])    ? $_ENV['MYSQL_SERVER']      : '127.0.0.1';
-    $dbUser = isset($_SERVER['MYSQL_USER'])     ? $_SERVER['MYSQL_USER']     : 'root';
-    $dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : '';
+    $dbUser = isset($_SERVER['MYSQL_USER'])     ? $_SERVER['MYSQL_USER']     : 'testuser';
+    $dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
     $dbName = isset($_SERVER['MYSQL_DB'])       ? $_SERVER['MYSQL_DB']       : 'mydb';
     $user = $_POST['username'];
     $pass = $_POST['password'];
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         $db = new PDO($dsn, $dbUser, $dbPass, $options);
 
-        $stmt = $db->prepare("SELECT user_id, username, password FROM users WHERE username = ?");
+        $stmt = $db->prepare("SELECT user_id, username, password FROM user2 WHERE username = ?");
         $stmt->execute([$user]);
 
         if ($stmt->rowCount() > 0) {

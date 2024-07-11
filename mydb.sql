@@ -77,3 +77,7 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2024-07-12  5:17:59
+-- root ユーザーでログインした後に実行
+CREATE USER 'testuser'@'localhost' IDENTIFIED BY 'pass';
+GRANT ALL PRIVILEGES ON mydb.* TO 'testuser'@'localhost';
+FLUSH PRIVILEGES;

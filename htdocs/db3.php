@@ -9,8 +9,8 @@ function h($var) {
 }
 
 $dbServer = '127.0.0.1';
-$dbUser = 'testuser';  // ユーザー名
-$dbPass = 'pass';      // パスワード
+$dbUser = 'root';  // ユーザー名
+$dbPass = '';      // パスワード
 $dbName = 'mydb';      // データベース名
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8mb4";

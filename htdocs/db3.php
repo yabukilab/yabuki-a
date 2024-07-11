@@ -1,6 +1,7 @@
 </php
 require "db.php";
 
+// PDOオブジェクトの作成
 $db = new PDO($dsn, $dbUser, $dbPass);
 # プリペアドステートメントのエミュレーションを無効にする．
 $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);

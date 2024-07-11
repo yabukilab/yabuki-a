@@ -1,4 +1,5 @@
-grant all on mydb.* to yabuki-a@localhost identified by 'pass';
+GRANT ALL PRIVILEGES ON mydb.* TO 'root'@'localhost';
+FLUSH PRIVILEGES;
 
 -- データベースの使用
 USE mydb;

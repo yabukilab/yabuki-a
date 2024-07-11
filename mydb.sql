@@ -1,4 +1,4 @@
-GRANT ALL PRIVILEGES ON mydb.* TO 'root'@'localhost';
+GRANT ALL PRIVILEGES ON yabukia.* TO 'testuser'@'localhost';
 FLUSH PRIVILEGES;
 
 -- データベースの使用

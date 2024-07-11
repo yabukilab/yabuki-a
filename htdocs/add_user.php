@@ -1,5 +1,7 @@
 <?php
 $_SERVER['MYSQL_DB'] = 'mydb';
+$_SERVER['MYSQL_USER'] = 'root';
+$_SERVER['MYSQL_PASSWORD'] = '';
 session_start();
 
 function h($var) {

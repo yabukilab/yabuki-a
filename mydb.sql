@@ -2,7 +2,7 @@ GRANT ALL PRIVILEGES ON yabukia.* TO 'testuser'@'localhost';
 FLUSH PRIVILEGES;
 
 -- データベースの使用
-USE mydb;
+USE yabukia;
 
 -- ユーザ情報テーブルの作成
 CREATE TABLE users (

@@ -1,20 +1,20 @@
 <?php
-// HTMLでのエスケープ処理をする関数
-function h($var) {
-    if (is_array($var)) {
-        return array_map('h', $var);
-    } else {
-        return htmlspecialchars($var, ENT_QUOTES, 'UTF-8');
-    }
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $dbServer = isset($_ENV['MYSQL_SERVER'])    ? $_ENV['MYSQL_SERVER']      : '127.0.0.1';
+    $dbUser = isset($_SERVER['MYSQL_USER'])     ? $_SERVER['MYSQL_USER']     : 'root';
+    $dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : '';
+    $dbName = isset($_SERVER['MYSQL_DB'])       ? $_SERVER['MYSQL_DB']       : 'mydb';
+    $user = $_POST['username'];
+    $pass = $_POST['password'];
+
+    $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ];
 }
-
-$dbServer = '127.0.0.1';
-$dbUser = 'root';  // ユーザー名
-$dbPass = '';      // パスワード
-$dbName = 'mydb';      // データベース名
-
-$dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8mb4";
-
 try {
     // PDOオブジェクトの作成
     $db = new PDO($dsn, $dbUser, $dbPass);

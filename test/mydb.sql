@@ -1,3 +1,5 @@
+grant all on mydb.* to yabuki-a@localhost identified by 'pass';
+
 -- データベースの使用
 USE mydb;
 

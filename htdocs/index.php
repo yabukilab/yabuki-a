@@ -1,70 +1,55 @@
 <?php
 session_start();
+function h($var) {
+    if (is_array($var)) {
+        return array_map('h', $var);
+    } else {
+        return htmlspecialchars($var, ENT_QUOTES, 'UTF-8');
+    }
+}
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') 
     $dbServer = isset($_ENV['MYSQL_SERVER'])    ? $_ENV['MYSQL_SERVER']      : '127.0.0.1';
-    $dbUser = isset($_SERVER['MYSQL_USER'])     ? $_SERVER['MYSQL_USER']     : 'testuser';
-    $dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
+    $dbUser = isset($_SERVER['MYSQL_USER'])     ? $_SERVER['MYSQL_USER']     : 'root';
+    $dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : '';
     $dbName = isset($_SERVER['MYSQL_DB'])       ? $_SERVER['MYSQL_DB']       : 'mydb';
 
-    $user = $_POST['username'];
-    $pass = $_POST['password'];
+$dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 
-    $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
-    $options = [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    ];
+try {
+    $db = new PDO($dsn, $dbUser, $dbPass);
+    $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Can't connect to the database: " . h($e->getMessage());
+    exit;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = h($_POST["username"]);
+    $password = h($_POST["password"]);
 
     try {
-        $db = new PDO($dsn, $dbUser, $dbPass, $options);
+        $stmt = $db->prepare("SELECT username, password FROM users WHERE username = ?");
+        $stmt->execute([$username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $stmt = $db->prepare("SELECT user_id, username, password FROM users WHERE username = ?");
-        $stmt->execute([$user]);
-
-        if ($stmt->rowCount() > 0) {
-            $row = $stmt->fetch();
-            if (password_verify($pass, $row['password'])) {
-                // ログイン成功 - セッション変数を設定
-                $_SESSION['user_id'] = $row['user_id'];
-                $_SESSION['username'] = $row['username'];
-                header('Location: home.php');
-                exit();
-            } else {
-                echo "IDまたはパスワードが間違っています。";
-            }
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['username'] = $user['username'];
+            header("Location: home.php");
+            exit;
         } else {
-            echo "IDまたはパスワードが間違っています。";
+            echo "Incorrect username or password.";
         }
     } catch (PDOException $e) {
-        echo "Can't connect to the database: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
+        echo "Error: " . h($e->getMessage());
     }
-} else {
-    ?>
-    <!DOCTYPE html>
-    <html lang="ja">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ログイン画面</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-        <div class="header">本棚管理システム</div>
-        <div class="container">
-            <h1>ログイン画面</h1>
-            <form id="loginForm" action="" method="post">
-                <label for="username">ユーザ名:</label><br>
-                <input type="text" id="username" name="username" required><br><br>
-                <label for="password">パスワード:</label><br>
-                <input type="password" id="password" name="password" required><br><br>
-                <!-- ログインボタン -->
-                <button type="submit" class="btn btn--orange btn--radius">ログイン</button>
-            </form>
-            <p>アカウントをお持ちではありませんか？<a href="add_user.php">ユーザ追加はこちら</a></p> 
-        </div>
-    </body>
-    </html>
-    <?php
 }
 ?>
+
+<!-- HTMLフォーム -->
+<form method="post" action="login.php">
+    Username: <input type="text" name="username">
+    Password: <input type="password" name="password">
+    <input type="submit" value="Login">
+</form>

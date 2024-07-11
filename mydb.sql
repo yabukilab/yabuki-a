@@ -11,12 +11,12 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL
 );
 
--- 書籍情報テーブルの作成
+
 CREATE TABLE books (
-    book_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    title VARCHAR(100) NOT NULL,
-    author VARCHAR(100) NOT NULL,
-    publisher VARCHAR(100) NOT NULL,
+    book_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(11),
+    title VARCHAR(255),
+    author VARCHAR(255),
+    publisher VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );

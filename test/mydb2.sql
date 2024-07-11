@@ -1,4 +1,4 @@
-grant all on mydb.* to testuser@localhost identified by 'pass';
+grant all on mydb.* to yabuki-a@localhost identified by 'pass';
 
 -- データベースの使用
 USE mydb;

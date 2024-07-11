@@ -8,7 +8,7 @@ function h($var) {
 }
 
 $dbServer = 'localhost';    // データベースサーバーのホスト名
-$dbUser = 'testuser';       // データベースユーザー名
+$dbUser = 'yabuki-a';       // データベースユーザー名
 $dbPass = 'pass';  // データベースパスワード
 $dbName = 'mydb';           // データベース名
 

@@ -1,98 +1,79 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
+-- MariaDB dump 10.19  Distrib 10.4.32-MariaDB, for Win64 (AMD64)
 --
--- ホスト: 127.0.0.1
--- 生成日時: 2024-07-11 12:34:53
--- サーバのバージョン： 10.4.32-MariaDB
--- PHP のバージョン: 8.2.12
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
+-- Host: localhost    Database: mydb
+-- ------------------------------------------------------
+-- Server version	10.4.32-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
-
-CREATE DATABASE yabukia;
-
--- 'mydb'データベースを使用
-USE yabukia;
--- --------------------------------------------------------
-
---
--- テーブルの構造 `books`
+-- Table structure for table `books`
 --
 
-CREATE TABLE `book2` (
-  `book_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `books`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `books` (
+  `book_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `author` varchar(255) DEFAULT NULL,
-  `publisher` varchar(255) DEFAULT NULL
+  `publisher` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`book_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `books_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- テーブルの構造 `users`
+-- Dumping data for table `books`
 --
 
-CREATE TABLE `user2` (
-  `user_id` int(11) NOT NULL,
+LOCK TABLES `books` WRITE;
+/*!40000 ALTER TABLE `books` DISABLE KEYS */;
+/*!40000 ALTER TABLE `books` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- ダンプしたテーブルのインデックス
+-- Dumping data for table `users`
 --
 
---
--- テーブルのインデックス `books`
---
-ALTER TABLE `book2`
-  ADD PRIMARY KEY (`book_id`),
-  ADD KEY `user_id` (`user_id`);
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
---
--- テーブルのインデックス `users`
---
-ALTER TABLE `user2`
-  ADD PRIMARY KEY (`user_id`);
-
---
--- ダンプしたテーブルの AUTO_INCREMENT
---
-
---
--- テーブルの AUTO_INCREMENT `books`
---
-ALTER TABLE `book2`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- テーブルの AUTO_INCREMENT `users`
---
-ALTER TABLE `user2`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- ダンプしたテーブルの制約
---
-
---
--- テーブルの制約 `books`
---
-ALTER TABLE `book2`
-  ADD CONSTRAINT `book2_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user2` (`user_id`);
-COMMIT;
-
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-07-12  1:29:02

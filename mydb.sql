@@ -18,14 +18,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
----- 既存のデータベース'yabukia'を削除
-DROP DATABASE IF EXISTS yabukia;
 
 -- 新しいデータベース'mydb'を作成
-CREATE DATABASE mydb;
+CREATE DATABASE yabukia;
 
 -- 'mydb'データベースを使用
-USE mydb;
+USE yabukia;
 -- --------------------------------------------------------
 
 --

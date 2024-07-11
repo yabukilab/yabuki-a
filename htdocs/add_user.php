@@ -1,4 +1,6 @@
-<<?php
+<?php
+session_start();
+
 function h($var) {
     if (is_array($var)) {
         return array_map('h', $var);
@@ -7,7 +9,7 @@ function h($var) {
     }
 }
 
-$dbServer = 'localhost';
+$dbServer = '127.0.0.1';
 $dbUser = 'root';
 $dbPass = '';
 $dbName = 'mydb';
@@ -20,24 +22,20 @@ try {
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo "Can't connect to the database: " . h($e->getMessage());
-    exit;
+    exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = h($_POST["username"]);
-    $password = password_hash(h($_POST["password"]), PASSWORD_DEFAULT);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-    try {
-        // 既存のユーザー名をチェック
-        $stmt = $db->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
-        $stmt->execute([$username]);
-        $count = $stmt->fetchColumn();
+    if (!empty($username) && !empty($password)) {
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         try {
-            // プリペアドステートメントを使用して安全にデータを挿入
             $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
-            $stmt->bindParam(':username', $username, PDO::PARAM_STR);
-            $stmt->bindParam(':password', $hashed_password, PDO::PARAM_STR);
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':password', $hashed_password);
             $stmt->execute();
 
             echo "ユーザが追加されました。";
@@ -45,8 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } catch (PDOException $e) {
             echo "Error: " . h($e->getMessage());
         }
-    } catch (PDOException $e) {
-        echo "Error: " . h($e->getMessage());
+    } else {
+        echo "ユーザ名とパスワードは空にできません。";
     }
 }
 ?>

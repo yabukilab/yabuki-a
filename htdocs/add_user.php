@@ -8,8 +8,8 @@ function h($var) {
 }
 
 $dbServer = 'localhost';
-$dbUser = 'testuser';
-$dbPass = 'pass';
+$dbUser = 'root';
+$dbPass = '';
 $dbName = 'mydb';
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
@@ -33,7 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute([$username]);
         $count = $stmt->fetchColumn();
 
-<<<<<<< HEAD
         try {
             // プリペアドステートメントを使用して安全にデータを挿入
             $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
@@ -45,15 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "<p><a href='login.php'>ログイン画面へ戻る。</a></p>";
         } catch (PDOException $e) {
             echo "Error: " . h($e->getMessage());
-=======
-        if ($count > 0) {
-            echo "Error: Username already exists.";
-        } else {
-            // ユーザーを追加
-            $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
-            $stmt->execute([$username, $password]);
-            echo "User added successfully.";
->>>>>>> b39caaa359ad3c1e8019004c6376e81b23e0afcb
         }
     } catch (PDOException $e) {
         echo "Error: " . h($e->getMessage());

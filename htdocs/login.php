@@ -8,18 +8,11 @@ function h($var) {
     }
 }
 
-<<<<<<< HEAD
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $dbServer = isset($_ENV['MYSQL_SERVER'])    ? $_ENV['MYSQL_SERVER']      : '127.0.0.1';
-    $dbUser = isset($_SERVER['MYSQL_USER'])     ? $_SERVER['MYSQL_USER']     : 'testuser';
-    $dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
+    $dbUser = isset($_SERVER['MYSQL_USER'])     ? $_SERVER['MYSQL_USER']     : 'root';
+    $dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : '';
     $dbName = isset($_SERVER['MYSQL_DB'])       ? $_SERVER['MYSQL_DB']       : 'mydb';
-=======
-$dbServer = 'localhost';
-$dbUser = 'testuser';
-$dbPass = 'pass';
-$dbName = 'mydb';
->>>>>>> b39caaa359ad3c1e8019004c6376e81b23e0afcb
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 
@@ -60,4 +53,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     Password: <input type="password" name="password">
     <input type="submit" value="Login">
 </form>
-

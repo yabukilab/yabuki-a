@@ -14,8 +14,8 @@ function h($var) {
 }
 
 $dbServer = 'localhost';
-$dbUser = 'testuser';
-$dbPass = 'pass';
+$dbUser = 'root';
+$dbPass = '';
 $dbName = 'mydb';
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
@@ -26,7 +26,6 @@ try {
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo "Can't connect to the database: " . h($e->getMessage());
-<<<<<<< HEAD
     exit();
 }
 
@@ -52,9 +51,6 @@ if ($sort === 'title') {
     $query .= " ORDER BY author ASC";
 } elseif ($sort === 'publisher') {
     $query .= " ORDER BY publisher ASC";
-=======
-    exit;
->>>>>>> b39caaa359ad3c1e8019004c6376e81b23e0afcb
 }
 
 try {

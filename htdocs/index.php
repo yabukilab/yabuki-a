@@ -3,7 +3,7 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $dbServer = '127.0.0.1';
-    $dbUser = 'yabuki-a';
+    $dbUser = 'testuser';
     $dbPass = 'pass';
     $dbName = 'mydb';
 

@@ -11,7 +11,7 @@ function h($var) {
 
 $dbServer = '127.0.0.1';
 $dbUser = 'testuser';
-$dbPass = 'yabuki-a';
+$dbPass = 'pass';
 $dbName = 'mydb';
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";

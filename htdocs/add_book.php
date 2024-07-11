@@ -9,17 +9,10 @@ function h($var) {
     }
 }
 
-<<<<<<< HEAD
-$dbServer = isset($_ENV['MYSQL_SERVER']) ? $_ENV['MYSQL_SERVER'] : '127.0.0.1';
-$dbUser = isset($_SERVER['MYSQL_USER']) ? $_SERVER['MYSQL_USER'] : 'testuser';
-$dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
-$dbName = isset($_SERVER['MYSQL_DB']) ? $_SERVER['MYSQL_DB'] : 'mydb';
-=======
 $dbServer = '127.0.0.1';
-$dbUser = 'testuser';
-$dbPass = 'pass';
-$dbName = 'yabukia';
->>>>>>> f7e1272cbd47093d38a1e7ca405720f9614fd846
+$dbUser = 'root';
+$dbPass = '';
+$dbName = 'mydb';
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 
@@ -38,47 +31,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $publisher = $_POST['publisher'] ?? '';
 
     if (!empty($title) && !empty($author) && !empty($publisher)) {
+        // ログイン中のユーザIDを取得
+        $user_id = $_SESSION['user_id'];
+
         try {
-            $stmt = $db->prepare("INSERT INTO books (title, author, publisher) VALUES (:title, :author, :publisher)");
+            $stmt = $db->prepare("INSERT INTO books (user_id, title, author, publisher) VALUES (:user_id, :title, :author, :publisher)");
+            $stmt->bindParam(':user_id', $user_id);
             $stmt->bindParam(':title', $title);
             $stmt->bindParam(':author', $author);
             $stmt->bindParam(':publisher', $publisher);
             $stmt->execute();
 
-            echo "Book successfully added.";
-            echo "<p><a href='home.php'>Go to home page</a></p>";
+            echo "書籍が追加されました。";
+            echo "<p><a href='home.php'>ホームへ戻る。</a></p>";
         } catch (PDOException $e) {
             echo "Error: " . h($e->getMessage());
         }
     } else {
-        echo "Title, author, and publisher cannot be empty.";
+        echo "タイトル、著者、出版社は空欄にできません。";
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Book</title>
+    <title>書籍追加</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h2>Add Book</h2>
+    <div class="header"></div>
+    <h1>書籍追加画面</h1>
     <form method="POST" action="add_book.php">
-        <label for="title">Title:</label>
+        <label for="title">タイトル:</label>
         <input type="text" id="title" name="title" required>
         <br>
-        <label for="author">Author:</label>
+        <label for="author">著者:</label>
         <input type="text" id="author" name="author" required>
         <br>
-        <label for="publisher">Publisher:</label>
+        <label for="publisher">出版社:</label>
         <input type="text" id="publisher" name="publisher" required>
         <br>
-        <input type="submit" value="Add Book">
+        <input type="submit" value="書籍追加" class="btn btn--orange">
+
     </form>
 </body>
 </html>
-
-
-

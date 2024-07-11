@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 function h($var) {
     if (is_array($var)) {
         return array_map('h', $var);
@@ -7,17 +9,10 @@ function h($var) {
     }
 }
 
-<<<<<<< HEAD
-$dbServer = isset($_ENV['MYSQL_SERVER']) ? $_ENV['MYSQL_SERVER'] : '127.0.0.1';
-$dbUser = isset($_SERVER['MYSQL_USER']) ? $_SERVER['MYSQL_USER'] : 'testuser';
-$dbPass = isset($_SERVER['MYSQL_PASSWORD']) ? $_SERVER['MYSQL_PASSWORD'] : 'pass';
-$dbName = isset($_SERVER['MYSQL_DB']) ? $_SERVER['MYSQL_DB'] : 'mydb';
-=======
 $dbServer = '127.0.0.1';
-$dbUser = 'testuser';
-$dbPass = 'pass';
-$dbName = 'yabukia';
->>>>>>> f7e1272cbd47093d38a1e7ca405720f9614fd846
+$dbUser = 'root';
+$dbPass = '';
+$dbName = 'mydb';
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 
@@ -43,34 +38,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindParam(':password', $hashed_password);
             $stmt->execute();
 
-            echo "User successfully added.";
-            echo "<p><a href='login.html'>Go to login page</a></p>";
+            echo "ユーザが追加されました。";
+            echo "<p><a href='login.php'>ログイン画面へ戻る。</a></p>";
         } catch (PDOException $e) {
             echo "Error: " . h($e->getMessage());
         }
     } else {
-        echo "Username and password cannot be empty.";
+        echo "ユーザ名とパスワードは空にできません。";
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add User</title>
+    <title>ユーザ追加画面</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <h2>Add User</h2>
-    <form method="POST" action="add_user.php">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <input type="submit" value="Add User">
+    <div class="header"></div>
+    <h1>ユーザ追加画面</h1>
+    <form action="add_user.php" method="post">
+        <label for="username">ユーザ名:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">パスワード:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="ユーザ追加" class="btn btn--orange">
     </form>
 </body>
 </html>

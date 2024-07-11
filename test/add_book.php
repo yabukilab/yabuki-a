@@ -74,7 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="publisher">出版社:</label>
         <input type="text" id="publisher" name="publisher" required>
         <br>
-        <input type="submit" value="書籍追加">
+        <input type="submit" value="書籍追加" class="btn btn--orange">
+
     </form>
 </body>
 </html>

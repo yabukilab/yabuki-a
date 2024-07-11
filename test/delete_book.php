@@ -33,8 +33,8 @@ if (!isset($_SESSION['user_id'])) {
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     try {
-        $stmt = $db->prepare("DELETE FROM books WHERE id = :id AND user_id = :user_id");
-        $stmt->bindParam(':id', $id);
+        $stmt = $db->prepare("DELETE FROM books WHERE book_id = :book_id AND user_id = :user_id");
+        $stmt->bindParam(':book_id', $id);
         $stmt->bindParam(':user_id', $_SESSION['user_id']);
         $stmt->execute();
         header("Location: home.php");

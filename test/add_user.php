@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="text" id="username" name="username" required><br><br>
         <label for="password">パスワード:</label><br>
         <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" value="ユーザ追加">
+        <input type="submit" value="ユーザ追加" class="btn btn--orange">
     </form>
 </body>
 </html>

@@ -89,7 +89,7 @@ try {
             <option value="author" <?php if ($sort === 'author') echo 'selected'; ?>>著者</option>
             <option value="publisher" <?php if ($sort === 'publisher') echo 'selected'; ?>>出版社</option>
         </select>
-        <input type="submit" value="検索">
+        <input type="submit" value="検索" class="btn btn--orange">
     </form>
     <h2>書籍一覧</h2>
     <ul>

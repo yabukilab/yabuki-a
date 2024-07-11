@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_id = $_SESSION['user_id'];
 
         try {
-            $stmt = $db->prepare("INSERT INTO books (user_id, title, author, publisher) VALUES (:user_id, :title, :author, :publisher)");
+            $stmt = $db->prepare("INSERT INTO book2 (user_id, title, author, publisher) VALUES (:user_id, :title, :author, :publisher)");
             $stmt->bindParam(':user_id', $user_id);
             $stmt->bindParam(':title', $title);
             $stmt->bindParam(':author', $author);

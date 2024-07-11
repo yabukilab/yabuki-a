@@ -44,27 +44,6 @@ LOCK TABLES `books` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `table`
---
-
-DROP TABLE IF EXISTS `table`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `table` (
-  `1` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `table`
---
-
-LOCK TABLES `table` WRITE;
-/*!40000 ALTER TABLE `table` DISABLE KEYS */;
-/*!40000 ALTER TABLE `table` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `users`
 --
 
@@ -97,4 +76,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-11 19:10:51
+-- Dump completed on 2024-07-11 19:38:11

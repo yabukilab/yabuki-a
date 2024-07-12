@@ -26,7 +26,7 @@ if ($sort === 'title') {
 
 try {
     $stmt = $db->prepare($query);
-    $stmt->bindParam(':user_id', $user_id);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT); //変更点
     
     if (!empty($search)) {
         $searchWildcard = "%$search%";
@@ -38,7 +38,7 @@ try {
     $stmt->execute();
     $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    echo "Error: " . h($e->getMessage());
+    echo "Error: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');//へんこうてん
     exit();
 }
 ?>

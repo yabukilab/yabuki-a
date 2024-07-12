@@ -52,9 +52,9 @@ form input {
     margin-bottom: 10px;
 }
 
-p, ul {
+/*.btn--orange, ul {
     text-align: center;
-}
+}*/
 
 .btn--orange,
 button.btn--orange {

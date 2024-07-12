@@ -1,9 +1,13 @@
 <?php
-require 'db.php';
-    try {
-        $db = new PDO($dsn, $dbUser, $dbPass, $options);
+session_start();
+require 'db.php'; // データベース接続設定の読み込み
 
-        $stmt = $db->prepare("SELECT user_id, username, password FROM users WHERE username = ?");
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $user = $_POST['username'];
+    $pass = $_POST['password'];
+
+    try {
+        $stmt = $db->prepare("SELECT user_id, username, password FROM user2 WHERE username = ?");
         $stmt->execute([$user]);
 
         if ($stmt->rowCount() > 0) {
@@ -23,7 +27,7 @@ require 'db.php';
     } catch (PDOException $e) {
         echo "Can't connect to the database: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     }
-}else {
+} else {
     ?>
     <!DOCTYPE html>
     <html lang="ja">
@@ -52,3 +56,4 @@ require 'db.php';
     <?php
 }
 ?>
+

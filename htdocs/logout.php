@@ -29,6 +29,6 @@ session_destroy();
 <body>
     <h1>ログアウト完了</h1>
     <p>ログアウトが完了しました。</p>
-    <p><a href="login.php">ログイン画面に戻る</a></p>
+    <p><a href="index.php">ログイン画面に戻る</a></p>
 </body>
 </html>

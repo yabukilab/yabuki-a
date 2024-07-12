@@ -18,6 +18,7 @@
 --
 -- Table structure for table `book2`
 --
+use 'mydb';
 
 DROP TABLE IF EXISTS `book2`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

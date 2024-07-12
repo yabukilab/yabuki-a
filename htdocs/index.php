@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pass = $_POST['password'];
 
     try {
-        $stmt = $db->prepare("SELECT user_id, username, password FROM user2 WHERE username = ?");
+        $stmt = $db->prepare("SELECT user_id, username, password FROM users WHERE username = ?");
         $stmt->execute([$user]);
 
         if ($stmt->rowCount() > 0) {

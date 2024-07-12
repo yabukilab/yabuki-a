@@ -15,8 +15,7 @@ $dbServer = isset($_ENV['MYSQL_SERVER'])    ? $_ENV['MYSQL_SERVER']      : '127.
 
 $dsn = "mysql:host={$dbServer};dbname={$dbName};charset=utf8";
 
-echo "Connecting to database: " . h($dbName) . "<br>"; // デバッグ用に追加
-
+//変更点
 try {
   $db = new PDO($dsn, $dbUser, $dbPass);
 } catch (PDOException $e) {

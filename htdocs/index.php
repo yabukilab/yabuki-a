@@ -7,8 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pass = $_POST['password'];
 
     try {
-        //エラー確認
-        echo "接続成功<br>";
         $stmt = $db->prepare("SELECT user_id, username, password FROM users WHERE username = ?");
         $stmt->execute([$user]);
 
@@ -18,10 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // ログイン成功 - セッション変数を設定
                 $_SESSION['user_id'] = $row['user_id'];
                 $_SESSION['username'] = $row['username'];
-
-                // デバッグメッセージ
-                echo "ログイン成功<br>";
-                
                 header('Location: home.php');
                 exit();
             } else {

@@ -19,9 +19,9 @@ echo "Connecting to database: " . h($dbName) . "<br>"; // デバッグ用に追�
 
 try {
   $db = new PDO($dsn, $dbUser, $dbPass);
-  echo "Connected successfully to database: " . h($dbName) . "<br>"; // デバッグ用に追加
 } catch (PDOException $e) {
-  echo "Can't connect to the database: " . h($e->getMessage()) . "<br>";
+  echo "Can't connect to the database: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
+  exit();
 }
 ?>
 

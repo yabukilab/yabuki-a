@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         try {
-            $stmt = $db->prepare("INSERT INTO user2 (username, password) VALUES (:username, :password)");
+            $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
             $stmt->bindParam(':username', $username);
             $stmt->bindParam(':password', $hashed_password);
             $stmt->execute();

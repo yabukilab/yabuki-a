@@ -1,0 +1,78 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+/* タイトル */
+h1 {
+    text-align: center;
+    color: #8B4513;
+    font-size: 2.5em;
+    margin-top: 20px;
+}
+
+/* メイン画像 */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 20px auto;
+}
+
+/* 段落 */
+p {
+    line-height: 1.8;
+    text-align: center;
+    margin: 15px auto;
+    max-width: 80%;
+}
+
+/* リスト全体 */
+ul, ol {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 800px;
+}
+
+/* 各リスト項目 */
+ul > li {
+    margin: 20px 0;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* サブリスト項目 */
+ol li {
+    margin: 20px 0;
+}
+
+/* 小見出し */
+ul > li > p, ol li p {
+    margin-top: 10px;
+    color: #555;
+}
+
+/* メニュー画像 */
+ol img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+/* リスト内説明 */
+ol li {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

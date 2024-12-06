@@ -14,7 +14,7 @@
 
     <main>
         <section class="about">
-            <h2>お店について</h2>
+            <h2>喫茶店からす</h2>
             <p>
                 「喫茶店からす」は、津田沼駅から徒歩5分に位置する静かなカフェです。
                 レトロな雰囲気の店内では、美味しいコーヒーと自家製スイーツを楽しめます。
@@ -26,7 +26,6 @@
             <div class="gallery-grid">
                 <img src="exterior.jpg" alt="喫茶店からすの外観">
                 <img src="coffee.jpg" alt="喫茶店のコーヒー">
-                <img src="cake.jpg" alt="自家製スイーツ">
             </div>
         </section>
 

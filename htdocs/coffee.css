@@ -1,0 +1,106 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eaeaea; /* 少し暗く */
+    color: #2d2d2d; /* 少し濃く */
+    margin: 0;
+    padding: 20px;
+}
+
+/* ヘッダー */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: #6d3b1e; /* 少し暗く */
+    font-size: 2.5em;
+    margin: 20px 0;
+}
+
+/* ナビゲーション */
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 10px 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #6d3b1e; /* 少し暗く */
+    font-size: 1.2em;
+}
+
+/* セクション */
+section {
+    margin-bottom: 40px;
+}
+
+section h2 {
+    color: #6d3b1e; /* 少し暗く */
+    font-size: 2em;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* 段落 */
+p {
+    line-height: 1.8;
+    text-align: center;
+    margin: 15px auto;
+    max-width: 80%;
+    color: #444; /* 少し暗く */
+}
+
+/* メイン画像 */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 20px auto;
+}
+
+/* リスト全体 */
+ol {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 800px;
+}
+
+/* 各リスト項目 */
+ol > li {
+    margin: 20px 0;
+    background-color: #f2f2f2; /* 少し暗く */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 少し濃く */
+}
+
+/* リスト内説明 */
+ol li p {
+    margin-top: 10px;
+    color: #4a4a4a; /* 少し濃く */
+}
+
+/* サブリスト画像 */
+ol img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+/* リスト項目の小見出し */
+ol li > p {
+    margin-top: 10px;
+    color: #4a4a4a; /* 少し濃く */
+}

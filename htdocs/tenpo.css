@@ -103,3 +103,8 @@ ol li > p {
     margin-top: 10px;
     color: #555;
 }
+/* 背景を薄い暖色系に設定 */
+body {
+    background-color: #ffebcd; /* 薄いオレンジ色（ビスケット色） */
+  }
+  

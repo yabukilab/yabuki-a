@@ -15,7 +15,7 @@ body {
 /* ヘッダー */
 .hero {
     background: url('exterior.jpg') no-repeat center center / cover;
-    color: white;
+    color: rgb(49, 46, 46);
     text-align: center;
     padding: 4em 1em;
 }

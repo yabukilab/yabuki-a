@@ -1,7 +1,7 @@
 /* 全体のスタイル */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
+    background-color: #e1d8d8;
     color: #333;
     margin: 0;
     padding: 20px;
@@ -11,7 +11,7 @@ body {
 /* ヘッダー */
 .hero {
     background: url('menu.jpg') no-repeat center center / cover;
-    color: white;
+    color: rgb(20, 14, 14);
     text-align: center;
     padding: 4em 1em;
     border-radius: 8px;

@@ -11,7 +11,7 @@
   
     <br><br><div class="center-text">学籍番号またはパスワードが違います</div><br>
     
-    <form action="login.php" method="POST">
+    <form action="loginfail.php" method="POST">
       <div class="center-text"><label for="student_id">学籍番号</label>　　
       <input type="text" id="student_id" name="username" required size="30"><br><br>
 

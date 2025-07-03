@@ -51,7 +51,7 @@ if (!empty($lecture_ids)) {
 <head>
     <meta charset="UTF-8">
     <title>履修お助けいじばん</title>
-    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="1.css">
 </head>
 <body>
     <div class="header">履修お助けいじばん</div>

@@ -8,7 +8,7 @@
 <body>
 
 
-<a href="index0.php">一覧</a>
-<a href="">ランキング</a>
+<a href="a.php">一覧</a>
+<a href="ranking.php">ランキング</a>
 </body>
 </html>

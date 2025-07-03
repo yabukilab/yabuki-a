@@ -3,29 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <title>履修お助けいじばん</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="1.css">
 </head>
-<body>
-  <div class="container">
-    <div class="header"></div>
-    <h2>履修お助けいじばん</h2>
-    <p>学籍番号またはパスワードが違います</p>
+<body class="login-page">
+
+<div class="header">履修お助けいじばん</div>
+  
+    <br><br><div class="center-text">学籍番号またはパスワードが違います</div><br>
+    
     <form action="login.php" method="POST">
-      <label for="student_id">学籍番号</label>　　
-      <input type="text" id="student_id" name="username"><br><br>
+      <div class="center-text"><label for="student_id">学籍番号</label>　　
+      <input type="text" id="student_id" name="username" required size="30"><br><br>
 
       <label for="password">パスワード</label>　
-      <input type="password" id="password" name="password"><br><br>
+      <input type="password" id="password" name="password" required size="30"><br><br></div>
 
-      <div class="links">
+      <div class="center-text">
         <a href="register.php">新規登録はこちら</a>　
-        <button type="submit">ログイン</button>
+        <div class="button-wrapper">
+          <button type="submit">ログイン</button>
+        </div>
       </div>
     </form>
-    <div class="forgot">
+    <div class="center-text">
       <a href="forgot_password.php">パスワードをお忘れの方</a>
     </div>
-  </div>
+  
 </body>
 </html>
 

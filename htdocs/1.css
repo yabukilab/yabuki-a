@@ -5,11 +5,14 @@ body {
   padding: 0;
 }
 
+
+
 h1 {
   background: #4a90e2;
   color: white;
   padding: 16px;
   margin: 0;
+  text-align: center;
 }
 
 .container {
@@ -40,8 +43,7 @@ h1 {
 }
 
 .stars {
-  color: orange;
-  font-size: 1.2em;
+    color: gold;
 }
 
 .lecture-title {
@@ -52,3 +54,133 @@ h1 {
     justify-content: space-between;
     align-items: center;
 }
+
+.header {
+    background: #3399ff;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    font-size: 22px;
+    font-weight: bold;
+    
+}
+
+.lecture-box {
+    margin: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+
+.overall-stars {
+    font-size: 16px;
+    color: #ccc;
+}
+
+.lecture-meta {
+    margin-bottom: 10px;
+}
+
+.comments {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    background: #f9f9f9;
+}
+
+.comment-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.stars {
+    color: gold;
+}
+
+.review-form {
+    border: 1px solid #ccc;
+    margin: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #f4f4f4;
+}
+
+.rating-section {
+    margin-bottom: 10px;
+}
+
+.rating-row {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+    text-align: center;
+    margin: 5px 0;
+}
+
+.rating-row input[type="radio"] {
+    display: none;
+}
+
+.rating-row label {
+    font-size: 20px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.rating-row input[type="radio"]:checked ~ label,
+.rating-row label:hover,
+.rating-row input[type="radio"]:hover ~ label {
+    color: gold;
+}
+
+.rating-stars {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+}
+
+textarea {
+    width: 100%;
+    height: 60px;
+    margin-top: 10px;
+}
+
+button {
+    float: right;
+    margin-top: 10px;
+    padding: 5px 10px;
+}
+
+.right {
+    display: block;       /* spanをブロック要素に変換 */
+    text-align: right;    /* テキスト右寄せ */
+}
+
+.center-text {
+    text-align: center;
+}
+
+.d1 {
+    font-size: 200px;
+}
+
+button {
+    float: right;
+    margin-top: 10px;
+    padding: 5px 10px;
+}
+
+.login-page .button-wrapper {
+    display: flex;
+    justify-content: center; /* 一度中央に寄せる */
+}
+
+.login-page button {
+    float: none;              /* 右寄せ解除 */
+    display: inline-block;
+    transform: translateX(200%); /* 中央から右に30%分ずらす */
+}
+
+
+

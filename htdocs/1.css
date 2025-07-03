@@ -1,0 +1,54 @@
+body {
+  font-family: sans-serif;
+  background: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  background: #4a90e2;
+  color: white;
+  padding: 16px;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  padding: 20px;
+}
+
+.main-panel {
+  flex: 3;
+  margin-right: 30px;
+}
+
+.side-menu {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  height: fit-content;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.course-card {
+  background: white;
+  margin: 15px 0;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.stars {
+  color: orange;
+  font-size: 1.2em;
+}
+
+.lecture-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

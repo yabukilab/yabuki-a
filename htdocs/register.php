@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $stmt->execute([$username, $password]); 
-        header("Location: login.php");
+        header("Location: index.php");
         exit;
     } catch (PDOException $e) {
         echo "登録失敗: " . $e->getMessage();

@@ -8,7 +8,7 @@
 <body>
 
 
-<a href="a.php">一覧</a>
+<a href="lecture.php">一覧</a>
 <a href="ranking.php">ランキング</a>
 </body>
 </html>

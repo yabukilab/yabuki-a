@@ -63,7 +63,7 @@ $lectures = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="side-menu">
       <ul>
         <li>🌟 <a href="top.php">トップ画面</a></li>
-        <li>🌟 <a href="a.php">講義一覧</a></li>
+        <li>🌟 <a href="lecture.php">講義一覧</a></li>
       </ul>
     </div>
   </div>

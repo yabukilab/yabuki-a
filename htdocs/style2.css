@@ -1,0 +1,61 @@
+/* 全体のリセット */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.header {
+    background: #3399ff;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    font-size: 22px;
+    font-weight: bold;
+    
+}
+
+/* メインコンテンツ配置 */
+main {
+  text-align: center;
+  margin-top: 40px;
+  font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+}
+
+/* タイトル */
+h1 {
+  margin-bottom: 30px;
+  font-size: 20px;
+}
+
+/* メニューボックス */
+.menu-box {
+  background-color: #dce8c8;
+  width: 60%;
+  margin: 0 auto;
+  padding: 30px 0;
+  border-radius: 25px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ボタン共通 */
+.menu-button {
+  display: block;
+  width: 70%;
+  margin: 15px auto;
+  padding: 15px 0;
+  background: linear-gradient(to bottom, #33bdef 0%, #019ad2 100%);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* ボタンのホバー時 */
+.menu-button:hover {
+  opacity: 0.9;
+}

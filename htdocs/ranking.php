@@ -23,7 +23,7 @@ $lectures = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
   <meta charset="UTF-8">
   <title>履修お助けいじばん</title>
-  <link rel="stylesheet" href="1.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>履修お助けいじばん</h1>

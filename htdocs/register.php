@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>新規登録 - 履修お助けいじばん</title>
-  <link rel="stylesheet" href="1.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 

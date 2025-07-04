@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: localhost:3306
--- 生成日時: 2025 年 7 月 03 日 10:22
+-- 生成日時: 2025 年 7 月 04 日 03:34
 -- サーバのバージョン： 10.11.11-MariaDB-0ubuntu0.24.04.2
 -- PHP のバージョン: 8.3.6
 
@@ -30,7 +30,6 @@ SET time_zone = "+00:00";
 CREATE TABLE `lecture` (
   `id` int(11) NOT NULL,
   `lecture_name` varchar(50) NOT NULL,
-  `name` varchar(50) NOT NULL,
   `lecture_content` varchar(3000) NOT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `teacher_id` int(11) NOT NULL
@@ -40,9 +39,10 @@ CREATE TABLE `lecture` (
 -- テーブルのデータのダンプ `lecture`
 --
 
-INSERT INTO `lecture` (`id`, `lecture_name`, `name`, `lecture_content`, `created_at`, `teacher_id`) VALUES
-(1, 'プロジェクトマネジメント演習', '下田　篤', 'プロジェクトマネジメント学科開講科目の内容を深く理解するために、実践的な講義および演習を通じて，より具体的な知識を養成する．演習の多くの場面で，プロジェクト型演習の形式を取り入れることで，単なる知識の獲得・整理に留まらず，プロジェクトの計画，運用に関わる具体的な問題解決手法の教授についても考慮する．', '2025-07-01 06:21:43', 1),
-(2, '試し', '小暮', '楽しい', '2025-07-02 12:21:44', 1);
+INSERT INTO `lecture` (`id`, `lecture_name`, `lecture_content`, `created_at`, `teacher_id`) VALUES
+(1, 'プロジェクトマネジメント演習', 'プロジェクトマネジメント学科開講科目の内容を深く理解するために、実践的な講義および演習を通じて，より具体的な知識を養成する．演習の多くの場面で，プロジェクト型演習の形式を取り入れることで，単なる知識の獲得・整理に留まらず，プロジェクトの計画，運用に関わる具体的な問題解決手法の教授についても考慮する．', '2025-07-01 06:21:43', 1),
+(2, '試し', '楽しい授業です。', '2025-07-02 12:21:44', 1),
+(3, 'XXXXXXXX実験', 'XXXXXXXXXの内容を深く理解するために、実践的な講義および演習を通じて，より具体的な知識を養成する．', '2025-07-04 03:19:42', 2);
 
 -- --------------------------------------------------------
 
@@ -76,7 +76,8 @@ INSERT INTO `review` (`id`, `lecture_id`, `rating_clarity`, `rating_homework`, `
 (10, 1, 3, 4, 'DOう？', '2025-07-02 12:01:02'),
 (11, 1, 3, 4, 'DOう？', '2025-07-02 12:02:48'),
 (12, 1, 3, 4, 'おねがい', '2025-07-02 12:05:31'),
-(13, 2, 1, 1, 'saitei', '2025-07-02 12:22:11');
+(13, 2, 1, 1, 'saitei', '2025-07-02 12:22:11'),
+(14, 3, 5, 5, '神授業！！！！', '2025-07-04 03:22:00');
 
 -- --------------------------------------------------------
 
@@ -98,7 +99,9 @@ CREATE TABLE `teacher` (
 --
 
 INSERT INTO `teacher` (`id`, `name`, `faculty`, `department`, `laboratory`, `photo`) VALUES
-(1, ' 千葉太郎', '社会システム科学科', 'PM', '1302', '匿名顔1.png');
+(1, ' 千葉太郎', '社会システム科学部', 'PM学科', '津田沼校舎　〇号館〇階　〇〇〇〇室', '匿名顔1.png'),
+(2, '千葉次郎', '社会システム科学部', 'PM学科', '津田沼校舎　X号館X階　XXXX室', 'user_2.png'),
+(6, 'a', 'a', 'a', 'a', '');
 
 -- --------------------------------------------------------
 
@@ -118,7 +121,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES
-(1, '2342052', '$2y$10$LN7x2Z2y9pMI/XM3bRDV7OaXLZK6mB7iL87M.YVvn1STaHFnaYBia', '2025-07-03 02:06:37');
+(1, '12345', '$2y$10$UFkt.R0Lp1wLWGolR.TfGeIsfzSi0wq0OaeUN1Zs.ZPbHVn.ywHVS', '2025-07-04 01:44:01');
 
 --
 -- ダンプしたテーブルのインデックス
@@ -159,25 +162,25 @@ ALTER TABLE `users`
 -- テーブルの AUTO_INCREMENT `lecture`
 --
 ALTER TABLE `lecture`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- テーブルの AUTO_INCREMENT `review`
 --
 ALTER TABLE `review`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- テーブルの AUTO_INCREMENT `teacher`
 --
 ALTER TABLE `teacher`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- テーブルの AUTO_INCREMENT `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- ダンプしたテーブルの制約

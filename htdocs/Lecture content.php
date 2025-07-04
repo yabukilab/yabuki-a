@@ -12,6 +12,13 @@ $stmt = $pdo->prepare("SELECT * FROM lecture WHERE id = ?");
 $stmt->execute([$lecture_id]);
 $lecture = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// 教員情報を取得（teacherテーブルから）
+$stmt = $pdo->prepare("SELECT * FROM teacher WHERE id = ?");
+$stmt->execute([$lecture['teacher_id']]);
+$teacher = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+
 // 平均評価取得（SQLで平均をまとめて取得）
 $avgStmt = $pdo->prepare("
     SELECT 
@@ -58,9 +65,10 @@ $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </strong>
         </div>
         <div class="lecture-meta">
-            <strong>氏名　</strong><a href="teacher.php?id=<?= $lecture['teacher_id'] ?>">
-                        <?= htmlspecialchars($lecture['name']) ?>
-                    </a><br>
+            <strong>氏名　</strong>
+                <a href="teacher.php?id=<?= $lecture['teacher_id'] ?>">
+                    <?= htmlspecialchars($teacher['name']) ?>
+                </a><br>
             <strong>講義内容</strong><br>
             <?= nl2br(htmlspecialchars($lecture['lecture_content'])) ?><br>
         </div>

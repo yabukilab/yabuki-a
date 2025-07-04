@@ -182,5 +182,9 @@ button {
     transform: translateX(200%); /* 中央から右に30%分ずらす */
 }
 
+.left {
+    margin-right: 50%;
+}
+
 
 

@@ -1,3 +1,42 @@
+<?php
+require 'db.php';
+
+// 講義登録処理
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['teacher_id'])) {
+    $lecture_name = trim($_POST['lecture_name']);
+    $teacher_id = (int)$_POST['teacher_id'];
+    $lecture_content = trim($_POST['lecture_content']);
+
+    $stmt = $pdo->prepare("INSERT INTO lecture (lecture_name, teacher_id, lecture_content) VALUES (?, ?, ?)");
+    try {
+        $stmt->execute([$lecture_name, $teacher_id, $lecture_content]);
+        header("Location: add.php");
+        exit;
+    } catch (PDOException $e) {
+        echo "講義登録失敗: " . $e->getMessage();
+    }
+}
+
+// 教員一覧を取得
+$teacher_stmt = $pdo->query("SELECT id, name FROM teacher");
+$teachers = $teacher_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// 教員追加処理
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_teacher'])) {
+    $name = trim($_POST['name']);
+    $faculty = trim($_POST['faculty']);
+    $department = trim($_POST['department']);
+    $laboratory = trim($_POST['laboratory']);
+    $photo = trim($_POST['photo']);
+
+    $stmt = $pdo->prepare("INSERT INTO teacher (name, faculty, department, laboratory, photo) VALUES (?, ?, ?, ?, ?)");
+    $stmt->execute([$name, $faculty, $department, $laboratory, $photo]);
+}
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -18,8 +57,15 @@
       </label>
     </p>
     <p>
-      <label>氏名<br>
-        <input type="text" name="name" required>
+      <label>教員（氏名）<br>
+        <select name="teacher_id" required>
+          <option value="">選択してください</option>
+          <?php foreach ($teachers as $teacher): ?>
+            <option value="<?= htmlspecialchars($teacher['id']) ?>">
+              <?= htmlspecialchars($teacher['name']) ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
       </label>
     </p>
     <p>
@@ -32,26 +78,20 @@
     </p>
   </form>
 
+  <hr>
+
+  <h3>➕ 教員の追加</h3>
+  <form action="add.php" method="POST">
+    <input type="hidden" name="add_teacher" value="1">
+    <p>氏名：<input type="text" name="name" required></p>
+    <p>学部：<input type="text" name="faculty" required></p>
+    <p>学科：<input type="text" name="department" required></p>
+    <p>研究室：<input type="text" name="laboratory"></p>
+    <p>写真URL：<input type="text" name="photo"></p>
+    <p><input type="submit" value="教員を追加"></p>
+  </form>
+
 
 </body>
 </html>
 
-<?php
-require 'db.php';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $lecture_name = trim($_POST['lecture_name']);
-    $name = trim($_POST['name']);
-    $lecture_content = trim($_POST['lecture_content']);
-
-    $stmt = $pdo->prepare("INSERT INTO lecture (lecture_name, name, lecture_content) VALUES (?,?,?)");
-
-    try {
-        $stmt->execute([$lecture_name, $name, $lecture_content]); 
-        header("Location: login.php");
-        exit;
-    } catch (PDOException $e) {
-        echo "登録失敗: " . $e->getMessage();
-    }
-}
-?>

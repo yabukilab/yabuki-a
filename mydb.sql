@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: localhost:3306
--- 生成日時: 2025 年 7 月 04 日 03:34
+-- 生成日時: 2025 年 7 月 04 日 06:14
 -- サーバのバージョン： 10.11.11-MariaDB-0ubuntu0.24.04.2
 -- PHP のバージョン: 8.3.6
 
@@ -65,7 +65,6 @@ CREATE TABLE `review` (
 
 INSERT INTO `review` (`id`, `lecture_id`, `rating_clarity`, `rating_homework`, `comment`, `created_at`) VALUES
 (1, 1, 4, 2, 'いい', '2025-07-01 07:07:59'),
-(2, 1, 4, 5, 'q', '2025-07-02 09:24:34'),
 (3, 1, 1, 1, '最高', '2025-07-02 10:01:05'),
 (4, 1, 5, 5, 'んｎ', '2025-07-02 10:01:43'),
 (5, 1, 5, 4, 'あ', '2025-07-02 10:02:53'),
@@ -100,8 +99,7 @@ CREATE TABLE `teacher` (
 
 INSERT INTO `teacher` (`id`, `name`, `faculty`, `department`, `laboratory`, `photo`) VALUES
 (1, ' 千葉太郎', '社会システム科学部', 'PM学科', '津田沼校舎　〇号館〇階　〇〇〇〇室', '匿名顔1.png'),
-(2, '千葉次郎', '社会システム科学部', 'PM学科', '津田沼校舎　X号館X階　XXXX室', 'user_2.png'),
-(6, 'a', 'a', 'a', 'a', '');
+(2, '千葉次郎', '社会システム科学部', 'PM学科', '津田沼校舎　X号館X階　XXXX室', 'user_2.png');
 
 -- --------------------------------------------------------
 
@@ -162,7 +160,7 @@ ALTER TABLE `users`
 -- テーブルの AUTO_INCREMENT `lecture`
 --
 ALTER TABLE `lecture`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- テーブルの AUTO_INCREMENT `review`

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: localhost:3306
--- 生成日時: 2025 年 7 月 04 日 06:14
+-- 生成日時: 2025 年 7 月 04 日 07:58
 -- サーバのバージョン： 10.11.11-MariaDB-0ubuntu0.24.04.2
 -- PHP のバージョン: 8.3.6
 
@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 -- テーブルの構造 `lecture`
 --
 
+DROP TABLE IF EXISTS `lecture`;
 CREATE TABLE `lecture` (
   `id` int(11) NOT NULL,
   `lecture_name` varchar(50) NOT NULL,
@@ -50,6 +51,7 @@ INSERT INTO `lecture` (`id`, `lecture_name`, `lecture_content`, `created_at`, `t
 -- テーブルの構造 `review`
 --
 
+DROP TABLE IF EXISTS `review`;
 CREATE TABLE `review` (
   `id` int(11) NOT NULL,
   `lecture_id` int(11) NOT NULL,
@@ -74,7 +76,6 @@ INSERT INTO `review` (`id`, `lecture_id`, `rating_clarity`, `rating_homework`, `
 (9, 1, 4, 3, 'ｋｋ', '2025-07-02 11:54:32'),
 (10, 1, 3, 4, 'DOう？', '2025-07-02 12:01:02'),
 (11, 1, 3, 4, 'DOう？', '2025-07-02 12:02:48'),
-(12, 1, 3, 4, 'おねがい', '2025-07-02 12:05:31'),
 (13, 2, 1, 1, 'saitei', '2025-07-02 12:22:11'),
 (14, 3, 5, 5, '神授業！！！！', '2025-07-04 03:22:00');
 
@@ -84,6 +85,7 @@ INSERT INTO `review` (`id`, `lecture_id`, `rating_clarity`, `rating_homework`, `
 -- テーブルの構造 `teacher`
 --
 
+DROP TABLE IF EXISTS `teacher`;
 CREATE TABLE `teacher` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
@@ -107,6 +109,7 @@ INSERT INTO `teacher` (`id`, `name`, `faculty`, `department`, `laboratory`, `pho
 -- テーブルの構造 `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
@@ -119,7 +122,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES
-(1, '12345', '$2y$10$UFkt.R0Lp1wLWGolR.TfGeIsfzSi0wq0OaeUN1Zs.ZPbHVn.ywHVS', '2025-07-04 01:44:01');
+(1, '12345', '$2y$10$UFkt.R0Lp1wLWGolR.TfGeIsfzSi0wq0OaeUN1Zs.ZPbHVn.ywHVS', '2025-07-04 01:44:01'),
+(4, '00000', '$2y$10$qiGKOilBNDxO8sbNwn2DMuTC1FKrfsiCfgyuhD2vnuy.HmqnwlZ/C', '2025-07-04 07:33:27');
 
 --
 -- ダンプしたテーブルのインデックス
@@ -160,7 +164,7 @@ ALTER TABLE `users`
 -- テーブルの AUTO_INCREMENT `lecture`
 --
 ALTER TABLE `lecture`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- テーブルの AUTO_INCREMENT `review`
@@ -172,13 +176,13 @@ ALTER TABLE `review`
 -- テーブルの AUTO_INCREMENT `teacher`
 --
 ALTER TABLE `teacher`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- テーブルの AUTO_INCREMENT `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- ダンプしたテーブルの制約
@@ -200,5 +204,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-ALTER TABLE lecture DROP COLUMN name;

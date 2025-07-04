@@ -7,9 +7,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['teacher_id'])) {
     $teacher_id = (int)$_POST['teacher_id'];
     $lecture_content = trim($_POST['lecture_content']);
 
-    $stmt = $pdo->prepare("INSERT INTO lecture (lecture_name, name, teacher_id, lecture_content) VALUES (?, あ, ?, ?)");
+    $stmt = $pdo->prepare("INSERT INTO lecture (lecture_name, teacher_id, lecture_content) VALUES (?, ?, ?)");
     try {
-        $stmt->execute([$lecture_name, $teacher_name, $teacher_id, $lecture_content]);
+        $stmt->execute([$lecture_name, $teacher_id, $lecture_content]);
         header("Location: add.php");
         exit;
     } catch (PDOException $e) {

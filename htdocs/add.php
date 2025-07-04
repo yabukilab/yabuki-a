@@ -4,13 +4,12 @@ require 'db.php';
 // 講義登録処理
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['teacher_id'])) {
     $lecture_name = trim($_POST['lecture_name']);
-    $name = trim($_POST['name']);
     $teacher_id = (int)$_POST['teacher_id'];
     $lecture_content = trim($_POST['lecture_content']);
 
-    $stmt = $pdo->prepare("INSERT INTO lecture (lecture_name, name, teacher_id, lecture_content) VALUES (?, ?, ?)");
+    $stmt = $pdo->prepare("INSERT INTO lecture (lecture_name, teacher_id, lecture_content) VALUES (?, ?, ?)");
     try {
-        $stmt->execute([$lecture_name, $name, $teacher_id, $lecture_content]);
+        $stmt->execute([$lecture_name, $teacher_id, $lecture_content]);
         header("Location: add.php");
         exit;
     } catch (PDOException $e) {
@@ -74,9 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_teacher'])) {
         <input type="text" name="lecture_content" required size="100" style="height: 100px;">
       </label>
     </p>
-    <label>名<br>
-        <input type="text" name="name" required size="30">
-      </label>
     <p>
       <input type="submit" value="登録">
     </p>

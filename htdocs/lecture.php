@@ -25,12 +25,6 @@ $stmt = $pdo->query($sql);
 $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-var_dump($dbName);
-$tables = $pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
-var_dump($tables);
-exit;
-
-
 ?>
 <!DOCTYPE html>
 <html lang="ja">

@@ -44,3 +44,8 @@ try {
 } catch (PDOException $e) {
   exit("データベース接続エラー: " . h($e->getMessage()));
 }
+
+echo "User: $dbUser\n";
+echo "Pass: $dbPass\n";
+echo "DB:   $dbName\n";
+

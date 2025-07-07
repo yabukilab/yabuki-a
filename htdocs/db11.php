@@ -26,21 +26,3 @@ try {
 } catch (PDOException $e) {
   exit("データベース接続エラー: " . h($e->getMessage()));
 }
-
-try {
-  $pdo = new PDO($dsn, $dbUser, $dbPass, [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-  ]);
-
-  // デバッグ用: 接続データベース名を表示
-  var_dump($pdo->query("SELECT DATABASE()")->fetchColumn());
-
-  // デバッグ用: テーブル一覧を表示
-  var_dump($pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN));
-
-  exit; // 一旦ここで止めてデバッグします
-} catch (PDOException $e) {
-  exit("データベース接続エラー: " . h($e->getMessage()));
-}

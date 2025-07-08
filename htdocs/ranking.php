@@ -1,5 +1,6 @@
 <?php
 require_once 'db.php';
+require_once 'auth.php';
 
 // 講義とその評価平均を取得（総合評価＝ clarity と homework の平均）
 $sql = "
@@ -64,6 +65,8 @@ $lectures = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <ul>
         <li>🌟 <a href="top.php">トップ画面</a></li>
         <li>🌟 <a href="lecture.php">講義一覧</a></li>
+        <li>🚪 <a href="logout.php">ログアウト</a></li>
+
       </ul>
     </div>
   </div>

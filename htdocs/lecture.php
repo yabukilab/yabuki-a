@@ -1,5 +1,6 @@
 <?php
 require_once 'db.php';
+require_once 'auth.php';
 
 $sql = "
 SELECT 
@@ -81,6 +82,8 @@ $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <ul>
         <li>🌟 <a href="top.php">トップ画面</a></li>
         <li>🌟 <a href="ranking.php">評価ランキング</a></li>
+        <li>🚪 <a href="logout.php">ログアウト</a></li>
+
       </ul>
     </div>
   </div>

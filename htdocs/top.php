@@ -1,3 +1,10 @@
+<?php
+
+require_once 'auth.php';
+require_once 'db.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>

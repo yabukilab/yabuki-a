@@ -1,5 +1,6 @@
 <?php
 require_once 'db.php';
+require_once 'auth.php';
 
 if (!isset($_GET['id'])) {
     die("IDが指定されていません。");

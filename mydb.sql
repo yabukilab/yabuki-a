@@ -1,23 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1deb3
--- https://www.phpmyadmin.net/
---
--- ホスト: localhost:3306
--- 生成日時: 2025 年 7 月 04 日 07:58
--- サーバのバージョン： 10.11.11-MariaDB-0ubuntu0.24.04.2
--- PHP のバージョン: 8.3.6
-SET FOREIGN_KEY_CHECKS=0;
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- データベース: `mydb`
 --
@@ -27,7 +7,6 @@ SET time_zone = "+00:00";
 --
 -- テーブルの構造 `lecture`
 --
-
 DROP TABLE IF EXISTS `lecture`;
 CREATE TABLE `lecture` (
   `id` int(11) NOT NULL,
@@ -51,7 +30,6 @@ INSERT INTO `lecture` (`id`, `lecture_name`, `lecture_content`, `created_at`, `t
 --
 -- テーブルの構造 `review`
 --
-
 DROP TABLE IF EXISTS `review`;
 CREATE TABLE `review` (
   `id` int(11) NOT NULL,
@@ -85,7 +63,6 @@ INSERT INTO `review` (`id`, `lecture_id`, `rating_clarity`, `rating_homework`, `
 --
 -- テーブルの構造 `teacher`
 --
-
 DROP TABLE IF EXISTS `teacher`;
 CREATE TABLE `teacher` (
   `id` int(11) NOT NULL,
@@ -109,7 +86,6 @@ INSERT INTO `teacher` (`id`, `name`, `faculty`, `department`, `laboratory`, `pho
 --
 -- テーブルの構造 `users`
 --
-
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
@@ -126,83 +102,3 @@ INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES
 (1, '12345', '$2y$10$UFkt.R0Lp1wLWGolR.TfGeIsfzSi0wq0OaeUN1Zs.ZPbHVn.ywHVS', '2025-07-04 01:44:01'),
 (4, '00000', '$2y$10$qiGKOilBNDxO8sbNwn2DMuTC1FKrfsiCfgyuhD2vnuy.HmqnwlZ/C', '2025-07-04 07:33:27');
 
---
--- ダンプしたテーブルのインデックス
---
-
---
--- テーブルのインデックス `lecture`
---
-ALTER TABLE `lecture`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_lecture_teacher` (`teacher_id`);
-
---
--- テーブルのインデックス `review`
---
-ALTER TABLE `review`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `lecture_id` (`lecture_id`);
-
---
--- テーブルのインデックス `teacher`
---
-ALTER TABLE `teacher`
-  ADD PRIMARY KEY (`id`);
-
---
--- テーブルのインデックス `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
-
---
--- ダンプしたテーブルの AUTO_INCREMENT
---
-
---
--- テーブルの AUTO_INCREMENT `lecture`
---
-ALTER TABLE `lecture`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- テーブルの AUTO_INCREMENT `review`
---
-ALTER TABLE `review`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- テーブルの AUTO_INCREMENT `teacher`
---
-ALTER TABLE `teacher`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- テーブルの AUTO_INCREMENT `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- ダンプしたテーブルの制約
---
-
---
--- テーブルの制約 `lecture`
---
-ALTER TABLE `lecture`
-  ADD CONSTRAINT `fk_lecture_teacher` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- テーブルの制約 `review`
---
-ALTER TABLE `review`
-  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`lecture_id`) REFERENCES `lecture` (`id`) ON DELETE CASCADE;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-SET FOREIGN_KEY_CHECKS=1;

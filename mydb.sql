@@ -165,7 +165,7 @@ ALTER TABLE `teacher`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD UNIQUE KEY `number` (`number`);
 
 --
 -- ダンプしたテーブルの AUTO_INCREMENT

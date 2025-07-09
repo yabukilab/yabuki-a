@@ -17,12 +17,12 @@
   <div class="center-text">
     <p>
       <label><span style="margin-left: -360px; display: inline-block;">氏名</span><br>
-        <input type="text" name="name" required required size="50">
+        <input type="text" name="username" required required size="50">
       </label>
     </p>
     <p>
       <label><span style="margin-left: -330px; display: inline-block;">学籍番号</span><br>
-        <input type="text" name="username" required required size="50">
+        <input type="text" name="number" required required size="50">
       </label>
     </p>
     <p>
@@ -45,12 +45,13 @@ require 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
+    $number = trim($_POST['number']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    $stmt = $pdo->prepare("INSERT INTO users (username, password) VALUES (?,?)");
+    $stmt = $pdo->prepare("INSERT INTO users (username, number, password) VALUES (?, ?, ?)");
 
     try {
-        $stmt->execute([$username, $password]); 
+        $stmt->execute([$username, $number, $password]); 
         header("Location: index.php");
         exit;
     } catch (PDOException $e) {

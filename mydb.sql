@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: localhost:3306
--- 生成日時: 2025 年 7 月 04 日 07:58
+-- 生成日時: 2025 年 7 月 09 日 06:10
 -- サーバのバージョン： 10.11.11-MariaDB-0ubuntu0.24.04.2
 -- PHP のバージョン: 8.3.6
 
@@ -52,7 +52,8 @@ CREATE TABLE `lecture` (
 INSERT INTO `lecture` (`id`, `lecture_name`, `lecture_content`, `created_at`, `teacher_id`) VALUES
 (1, 'プロジェクトマネジメント演習', 'プロジェクトマネジメント学科開講科目の内容を深く理解するために、実践的な講義および演習を通じて，より具体的な知識を養成する．演習の多くの場面で，プロジェクト型演習の形式を取り入れることで，単なる知識の獲得・整理に留まらず，プロジェクトの計画，運用に関わる具体的な問題解決手法の教授についても考慮する．', '2025-07-01 06:21:43', 1),
 (2, '試し', '楽しい授業です。', '2025-07-02 12:21:44', 1),
-(3, 'XXXXXXXX実験', 'XXXXXXXXXの内容を深く理解するために、実践的な講義および演習を通じて，より具体的な知識を養成する．', '2025-07-04 03:19:42', 2);
+(3, 'XXXXXXXX実験', 'XXXXXXXXXの内容を深く理解するために、実践的な講義および演習を通じて，より具体的な知識を養成する．', '2025-07-04 03:19:42', 2),
+(7, '革命的授業', '人生、変わります。。。', '2025-07-09 06:08:15', 2);
 
 -- --------------------------------------------------------
 
@@ -85,7 +86,9 @@ INSERT INTO `review` (`id`, `lecture_id`, `rating_clarity`, `rating_homework`, `
 (10, 1, 3, 4, 'DOう？', '2025-07-02 12:01:02'),
 (11, 1, 3, 4, 'DOう？', '2025-07-02 12:02:48'),
 (13, 2, 1, 1, 'saitei', '2025-07-02 12:22:11'),
-(14, 3, 5, 5, '神授業！！！！', '2025-07-04 03:22:00');
+(14, 3, 5, 5, '神授業！！！！', '2025-07-04 03:22:00'),
+(15, 1, 5, 4, 'これはよい', '2025-07-09 06:07:26'),
+(16, 7, 5, 5, 'よいですね！', '2025-07-09 06:08:39');
 
 -- --------------------------------------------------------
 
@@ -118,6 +121,7 @@ INSERT INTO `teacher` (`id`, `name`, `faculty`, `department`, `laboratory`, `pho
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
+  `number` varchar(50) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp()
@@ -127,9 +131,10 @@ CREATE TABLE `users` (
 -- テーブルのデータのダンプ `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES
-(1, '12345', '$2y$10$UFkt.R0Lp1wLWGolR.TfGeIsfzSi0wq0OaeUN1Zs.ZPbHVn.ywHVS', '2025-07-04 01:44:01'),
-(4, '00000', '$2y$10$qiGKOilBNDxO8sbNwn2DMuTC1FKrfsiCfgyuhD2vnuy.HmqnwlZ/C', '2025-07-04 07:33:27');
+INSERT INTO `users` (`id`, `number`, `username`, `password`, `created_at`) VALUES
+(1, '12345', '12345', '$2y$10$UFkt.R0Lp1wLWGolR.TfGeIsfzSi0wq0OaeUN1Zs.ZPbHVn.ywHVS', '2025-07-04 01:44:01'),
+(4, '00000', '00000', '$2y$10$qiGKOilBNDxO8sbNwn2DMuTC1FKrfsiCfgyuhD2vnuy.HmqnwlZ/C', '2025-07-04 07:33:27'),
+(7, '22222', 'aaaaa', '$2y$10$E/HftH7Oo.5p92UO0nVDSuVRkd5lJ8Bt2ybI2T8k8Awe.IFdizC6C', '2025-07-09 06:06:27');
 
 --
 -- ダンプしたテーブルのインデックス
@@ -170,13 +175,13 @@ ALTER TABLE `users`
 -- テーブルの AUTO_INCREMENT `lecture`
 --
 ALTER TABLE `lecture`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- テーブルの AUTO_INCREMENT `review`
 --
 ALTER TABLE `review`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- テーブルの AUTO_INCREMENT `teacher`
@@ -188,7 +193,7 @@ ALTER TABLE `teacher`
 -- テーブルの AUTO_INCREMENT `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- ダンプしたテーブルの制約

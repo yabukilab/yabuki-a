@@ -42,7 +42,7 @@ $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="main-panel">
       <h2>科目検索</h2>
       <form method="GET">
-        <input type="text" name="keyword" placeholder="検索キーワード" value="<?= isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : '' ?>" required size="150" style="height: 30px;">
+        <input type="text" name="keyword" placeholder="検索キーワード" value="<?= isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : '' ?>" size="150" style="height: 30px;">
         <button type="submit">検索</button>
       </form>
 
